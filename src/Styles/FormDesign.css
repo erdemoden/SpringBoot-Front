@@ -1,0 +1,48 @@
+body{
+    text-align: center;
+}
+.formBack{
+    display: block;
+    background-color:gray;
+    width: 400px;
+    padding: 40px;
+    height: 350px;
+    text-align: center;
+    color: black;
+    position:absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  margin: auto;
+
+    border-top-left-radius: 100px;
+    border-bottom-right-radius: 100px;
+}
+.Title{
+    font-weight: bolder;
+    font-size: xx-large;
+}
+
+.formBack input[type="text"],.formBack input[type="password"]{
+    display: block;
+    margin: 20px auto;
+    padding: 10px 10px;
+    width: 200px;
+    background: none;
+    border: 2px solid black;
+    border-radius: 15px;
+    transition: 0.8s;
+}
+.formBack input[type="button"]{
+    background: none;
+    border: 2px solid black;
+    padding: 10px 10px;
+    width: 100px;
+    border-radius: 15px;
+    transition: 0.6s;
+}
+.formBack input[type="button"]:hover{
+    background-color: black;
+    color: gray;
+}
+.formBack input[type="text"]:focus,.formBack input[type="password"]:focus{
+    border-left: 40px solid black;
+}
