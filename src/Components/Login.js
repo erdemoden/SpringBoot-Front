@@ -16,22 +16,22 @@ const Login  = (props)=>{
     button:props.button,
     show:true
   });
-   const beforeLoad = async ()=>{
-    let response =await GetWithAuth("http://localhost:1998/");
-    if(response.route =="/Error"){
-      let response2 = GetWithRefresh("http://localhost:1998/");
-      if(response2.route == "/Error"){
-        console.log("Merhaba");
-      }
-      else{
-        navigate(response.route);
-        console.log("Merhaba2");
-      }
-    }
-    else{
-      console.log("Merhaba3");
-    }
-     }
+  //  const beforeLoad = async ()=>{
+  //   let response = await GetWithAuth("http://localhost:1998/");
+  //   if(response.route =="/Error"){
+  //     let response2 = GetWithRefresh("http://localhost:1998/");
+  //     if(response2.route == "/Error"){
+  //       console.log("Merhaba");
+  //     }
+  //     else{
+  //       navigate(response.route);
+  //       console.log("Merhaba2");
+  //     }
+  //   }
+  //   else{
+  //     console.log("Merhaba3");
+  //   }
+  //    }
       const handleClick = ()=>{
           if(allState.show === false && number === 1){
               setAllState({show:true,message:"Have Account ?",title:"Sign-Up"});
@@ -59,7 +59,7 @@ const Login  = (props)=>{
           });
         }
          else if(allState.title === "Sign-Up"){
-          let post = await fetch('http://localhost:1998/signup',{
+          let post = await fetch('http://localhost:1998/auth/register',{
             method:'POST',
             headers:{
               'Content-Type': 'application/json'
@@ -68,10 +68,11 @@ const Login  = (props)=>{
             body: JSON.stringify({username:document.getElementById("username").value, password:document.getElementById("password").value})
           });
           let postres = await post.json();
-          if(postres.route === '/homepage'){
+          if(postres.created == true){
+            localStorage.setItem("jwtsession",postres.accessToken);
             navigate('/homepage');
           }
-          else if(postres.error){
+          else if(postres.created == false){
             swal({
               title: postres.error,
               text: "Please Check And Try Again",
@@ -81,7 +82,7 @@ const Login  = (props)=>{
           }
          }
          else if(allState.title === "Login"){
-          let post = await fetch('http://localhost:1998/signup',{
+          let post = await fetch('http://localhost:1998/auth/login',{
             method:'POST',
             headers:{
               'Content-Type': 'application/json'
@@ -90,10 +91,11 @@ const Login  = (props)=>{
             body: JSON.stringify({username:document.getElementById("username").value, password:document.getElementById("password").value})
           });
           let postres = await post.json();
-          if(postres.route === '/homepage'){
+          if(postres.created == true){
+            localStorage.setItem("jwtsession",postres.accessToken);
             navigate('/homepage');
           }
-          else if(postres.error){
+          else if(postres.created === false){
             swal({
               title: postres.error,
               text: "Please Check And Try Again",
@@ -103,9 +105,9 @@ const Login  = (props)=>{
           }
          }
       }
-      useEffect(() =>{
-        beforeLoad();
-      },[]);
+      // useEffect(() =>{
+      //   beforeLoad();
+      // },[]);
       useEffect( ()=>{
         setTimeout(() => {
               if(allState.show === true && number === 1){
