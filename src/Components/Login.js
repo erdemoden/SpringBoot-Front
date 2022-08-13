@@ -1,5 +1,5 @@
-import '../Styles/Background.css'
-import '../Styles/FormDesign.css'
+import '../Styles/Background.scss'
+import '../Styles/FormDesign.scss'
 import Bounce from 'react-reveal/Bounce';
 import cookies from 'js-cookie'
 import {useNavigate} from 'react-router-dom';
@@ -16,22 +16,13 @@ const Login  = (props)=>{
     button:props.button,
     show:true
   });
-  //  const beforeLoad = async ()=>{
-  //   let response = await GetWithAuth("http://localhost:1998/");
-  //   if(response.route =="/Error"){
-  //     let response2 = GetWithRefresh("http://localhost:1998/");
-  //     if(response2.route == "/Error"){
-  //       console.log("Merhaba");
-  //     }
-  //     else{
-  //       navigate(response.route);
-  //       console.log("Merhaba2");
-  //     }
-  //   }
-  //   else{
-  //     console.log("Merhaba3");
-  //   }
-  //    }
+   const beforeLoad = async ()=>{
+    let response = await GetWithAuth("http://localhost:1998/auth/route");
+    if(response.route == "/"){
+      localStorage.removeItem("jwtsession");
+    }
+    navigate(response.route);
+     }
       const handleClick = ()=>{
           if(allState.show === false && number === 1){
               setAllState({show:true,message:"Have Account ?",title:"Sign-Up"});
@@ -105,9 +96,9 @@ const Login  = (props)=>{
           }
          }
       }
-      // useEffect(() =>{
-      //   beforeLoad();
-      // },[]);
+      useEffect(() =>{
+        beforeLoad();
+      },[]);
       useEffect( ()=>{
         setTimeout(() => {
               if(allState.show === true && number === 1){

@@ -6,23 +6,12 @@ var request = await fetch(url,{
 method:'POST',
 headers:{
     "Content-Type":"application/json",
-    "Authorization":cookies.get("acs")
+    "Authorization":localStorage.getItem("jwtsession")
 },
 body:JSON.stringify(body)
 
 });
 return request;
-}
-export const GetWithRefresh = async(url)=>{
-    var response = await fetch(url,{
-        method:'GET',
-        withCredentials:true,
-        headers:{
-            "Content-Type":"application/json",
-            "Authorization":cookies.get("rfs")
-        }
-    });
-    return await response.json();
 }
  export const GetWithAuth = async(url)=>{
    const response = await fetch(url,{
@@ -30,8 +19,8 @@ export const GetWithRefresh = async(url)=>{
         withCredentials:true,
         headers:{
             "Content-Type":"application/json",
-            "Authorization":cookies.get("acs")
+            "Authorization":localStorage.getItem("jwtsession")
         }
     });
-    return await response.json()
+    return await response.json();
 }

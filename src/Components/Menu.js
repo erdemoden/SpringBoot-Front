@@ -1,23 +1,22 @@
 import React from 'react';
-import '../Styles/Menu.css'
+import '../Styles/Menu.scss'
 import {useNavigate} from 'react-router-dom';
 import { useState ,useEffect } from 'react';
 import { connect } from 'react-redux';
+import {GetWithAuth ,GetWithRefresh} from '../Services/HttpServices';
 const axios = require('axios');
 const Menu = (props)=>{
     const navigate = useNavigate();
-        const beforeLoad = ()=>{
-            axios.get('http://localhost:1998/',{withCredentials:true})
-            .then(function(response){
-              if(response.data.route === "/homepage"){
-                props.setUserName(response.data.username);
-                navigate("/homepage");
-              }
-              else if(response.data.route === "/login"){
-                navigate("/");
-              }
-              console.log(response.data.route);
-            });
+        const beforeLoad = async()=>{
+          let response = await GetWithAuth("http://localhost:1998/auth/route");
+          if(response.route == "/"){
+          localStorage.removeItem("jwtsession");
+          navigate(response.route);
+          }
+          else{
+            props.setUserName(response.username);
+            navigate(response.route);
+          }
            }
 
     useEffect(() =>{
@@ -25,7 +24,7 @@ const Menu = (props)=>{
       },[]);
     
     return ( 
-        <nav className='navbar navbar-dark bg-dark fixed-top shadow flex'>
+        <nav className='navbar navbar-dark bg-dark fixed-top shadow flex ortalamenu'>
             <h1 className='white'>{"Welcome "+props.username}</h1>
             <button type="button" className='btn btn-success' id='buttons'>Your Writings</button>
             <button type="button" className='btn btn-success' id='buttons'>All Writings</button>
