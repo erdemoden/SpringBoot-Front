@@ -1,5 +1,5 @@
-import '../Styles/Background.scss'
-import '../Styles/FormDesign.scss'
+import background from'../Styles/Background.module.css'
+import formdesign from'../Styles/FormDesign.module.css'
 import Bounce from 'react-reveal/Bounce';
 import cookies from 'js-cookie'
 import {useNavigate} from 'react-router-dom';
@@ -16,7 +16,8 @@ const Login  = (props)=>{
     button:props.button,
     show:true
   });
-   const beforeLoad = async ()=>{
+   const beforeLoad = async ()=>{ 
+    let body = document.getElementsByClassName("deneme")[0].className = background.deneme;
     let response = await GetWithAuth("http://localhost:1998/auth/route");
     if(response.route == "/"){
       localStorage.removeItem("jwtsession");
@@ -115,8 +116,8 @@ const Login  = (props)=>{
         return(
             <div>
             <Bounce left opposite when={!allState.show}>
-            <div className='formBack'>
-                <h1 className='Title'>{allState.title}</h1>
+            <div className={formdesign.formBack}>
+                <h1 className={formdesign.Title}>{allState.title}</h1>
                 <input type="text" name = "username" placeholder="Username" id='username'></input>
                 <input type="password" name = "password" placeholder="Password" id='password'></input>
                 <input type="button" value={allState.title} onClick = {submit} ></input>

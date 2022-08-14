@@ -1,5 +1,5 @@
 import React from 'react';
-import '../Styles/Menu.scss'
+import Menustyle from'../Styles/Menu.module.css'
 import {useNavigate} from 'react-router-dom';
 import { useState ,useEffect } from 'react';
 import { connect } from 'react-redux';
@@ -8,6 +8,7 @@ const axios = require('axios');
 const Menu = (props)=>{
     const navigate = useNavigate();
         const beforeLoad = async()=>{
+          let body = document.getElementsByClassName("deneme")[0].className = Menustyle.deneme;
           let response = await GetWithAuth("http://localhost:1998/auth/route");
           if(response.route == "/"){
           localStorage.removeItem("jwtsession");
@@ -24,14 +25,15 @@ const Menu = (props)=>{
       },[]);
     
     return ( 
-        <nav className='navbar navbar-dark bg-dark fixed-top shadow flex ortalamenu'>
-            <h1 className='white'>{"Welcome "+props.username}</h1>
-            <button type="button" className='btn btn-success' id='buttons'>Your Writings</button>
-            <button type="button" className='btn btn-success' id='buttons'>All Writings</button>
-            <button type="button" className='btn btn-success' id='buttons'>Public Chat</button>
-            <button type="button" className='btn btn-success' id='buttons'>Log-Out</button>         
+        <nav className={'navbar navbar-dark bg-dark fixed-top flex ortalamenu'+Menustyle.shadow}>
+            <h1 className={Menustyle.white}>{"Welcome "+props.username}</h1>
+            <button type="button" className='btn btn-success' id={Menustyle.buttons}>Your Writings</button>
+            <button type="button" className='btn btn-success' id={Menustyle.buttons}>All Writings</button>
+            <button type="button" className='btn btn-success' id={Menustyle.buttons}>Public Chat</button>
+            <button type="button" className='btn btn-success' id={Menustyle.buttons}>Log-Out</button>         
             </nav>
     );
+   
 }
 const mapStateToProps = (state)=>{
   return{
