@@ -2,6 +2,7 @@ import background from'../Styles/Background.module.css'
 import formdesign from'../Styles/FormDesign.module.css'
 import Bounce from 'react-reveal/Bounce';
 import cookies from 'js-cookie'
+import Menustyle from'../Styles/Menu.module.css'
 import {useNavigate} from 'react-router-dom';
 import { useState ,useEffect } from 'react';
 import swal from 'sweetalert';
@@ -17,10 +18,13 @@ const Login  = (props)=>{
     show:true
   });
    const beforeLoad = async ()=>{ 
-    let body = document.getElementsByClassName("deneme")[0].className = background.deneme;
     let response = await GetWithAuth("http://localhost:1998/auth/route");
     if(response.route == "/"){
+      document.body.className = background.deneme;
       localStorage.removeItem("jwtsession");
+    }
+    if(response.route == "homepage"){
+      document.body.className = Menustyle.deneme;
     }
     navigate(response.route);
      }

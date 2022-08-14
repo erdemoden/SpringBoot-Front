@@ -8,7 +8,7 @@ const axios = require('axios');
 const Menu = (props)=>{
     const navigate = useNavigate();
         const beforeLoad = async()=>{
-          let body = document.getElementsByClassName("deneme")[0].className = Menustyle.deneme;
+          document.body.className = Menustyle.deneme;
           let response = await GetWithAuth("http://localhost:1998/auth/route");
           if(response.route == "/"){
           localStorage.removeItem("jwtsession");
@@ -25,13 +25,20 @@ const Menu = (props)=>{
       },[]);
     
     return ( 
+      <React.Fragment>
         <nav className={'navbar navbar-dark bg-dark fixed-top flex ortalamenu'+Menustyle.shadow}>
             <h1 className={Menustyle.white}>{"Welcome "+props.username}</h1>
+            <div className={Menustyle.hamburger}></div>
+            </nav>
+            <div className={Menustyle.opened}>
+            <div className={Menustyle.slidedown}>
             <button type="button" className='btn btn-success' id={Menustyle.buttons}>Your Writings</button>
             <button type="button" className='btn btn-success' id={Menustyle.buttons}>All Writings</button>
             <button type="button" className='btn btn-success' id={Menustyle.buttons}>Public Chat</button>
             <button type="button" className='btn btn-success' id={Menustyle.buttons}>Log-Out</button>         
-            </nav>
+            </div>
+            </div>
+            </React.Fragment>
     );
    
 }
