@@ -23,10 +23,11 @@ const Menu = (props)=>{
     useEffect(() =>{
         beforeLoad();
       },[]);
-    
+      //fixed-top flex
+      //navbar navbar-dark bg-dark 
     return ( 
       <React.Fragment>
-        <nav className={'navbar navbar-dark bg-dark fixed-top flex ortalamenu'+Menustyle.shadow}>
+        <nav className={Menustyle.menu}>
             <h1 className={Menustyle.white}>{"Welcome "+props.username}</h1>
             <div className={Menustyle.hamburger}></div>
             </nav>
