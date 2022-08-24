@@ -4,8 +4,10 @@ import Menustyle from'../Styles/Menu.module.css'
 import {useNavigate} from 'react-router-dom';
 import { connect } from 'react-redux';
 import {GetWithAuth ,GetWithRefresh} from '../Services/HttpServices';
-import { Bounce } from 'react-reveal';
+import { Bounce,Fade, Flip, Roll, Rotate, Slide, Zoom} from 'react-reveal';
+import { motion } from 'framer-motion';
 const axios = require('axios');
+let rotation = 0;
 const Menu = (props)=>{
     const navigate = useNavigate();
     const [myslide,setmyslide] = useState(
@@ -32,33 +34,27 @@ const Menu = (props)=>{
       //fixed-top flex
       //navbar navbar-dark bg-dark 
       const rotateAndOpen = ()=>{
+        if(myslide.isanimated == false){
         setmyslide({isanimated:true});
-        let hamburgerMenu = document.getElementById("hamburgerim");
-        let rotation = 0;
-        let animation = setInterval(()=>{
-          if(rotation == 90){
-            clearInterval(animation);
-          }
-          hamburgerMenu.style.transform = "rotate("+rotation+"deg"+")";
-          rotation+=5;
-        },10);
+        }
+        else{
+          setmyslide({isanimated:false});
+        }
       }
     return ( 
       <React.Fragment>
         <nav className={Menustyle.menu}>
             <h1 className={Menustyle.white}>{"Welcome "+props.username}</h1>
-            <div className={Menustyle.hamburger}onClick={rotateAndOpen} id = "hamburgerim"></div>
+            <motion.div className={Menustyle.hamburger}onClick={rotateAndOpen} id = "hamburgerim" animate={{transform:myslide.isanimated ? "rotate(90deg)":"rotate(0deg)"}}></motion.div>
             </nav>
-            <Bounce top when={myslide.isanimated}>
-            <div className={Menustyle.opened} id = "slidemenu">
+            <motion.div className={Menustyle.opened} id = "slidemenu" animate = {{opacity:myslide.isanimated ? 1:0,y:myslide.isanimated ? 0:-30}} transition = {{duration:1.5,ease:"easeOut"}}>
             <div className={Menustyle.slidedown}>
             <button type="button" className='btn btn-success' id={Menustyle.buttons}>Your Writings</button>
             <button type="button" className='btn btn-success' id={Menustyle.buttons}>All Writings</button>
             <button type="button" className='btn btn-success' id={Menustyle.buttons}>Public Chat</button>
             <button type="button" className='btn btn-success' id={Menustyle.buttons}>Log-Out</button>         
             </div>
-            </div>
-            </Bounce>
+            </motion.div>
             </React.Fragment>
     );
 }
