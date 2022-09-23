@@ -5,7 +5,8 @@ import {useNavigate} from 'react-router-dom';
 import { connect } from 'react-redux';
 import {GetWithAuth ,GetWithRefresh} from '../Services/HttpServices';
 import { Bounce,Fade, Flip, Roll, Rotate, Slide, Zoom} from 'react-reveal';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import Create_Post from './Create-Post';
 const axios = require('axios');
 let rotation = 0;
 const Menu = (props)=>{
@@ -47,14 +48,19 @@ const Menu = (props)=>{
             <h1 className={Menustyle.white}>{"Welcome "+props.username}</h1>
             <motion.div className={Menustyle.hamburger}onClick={rotateAndOpen} id = "hamburgerim" animate={{transform:myslide.isanimated ? "rotate(90deg)":"rotate(0deg)"}}></motion.div>
             </nav>
-            <motion.div className={Menustyle.opened} id = "slidemenu" animate = {{opacity:myslide.isanimated ? 1:0,y:myslide.isanimated ? 0:-30}} transition = {{duration:1.5,ease:"easeOut"}}>
-            <div className={Menustyle.slidedown}>
+            <Create_Post/>
+            <Bounce left when = {myslide.isanimated}>
+   <div className={Menustyle.opened} id = "slidemenu" style={{display : myslide.isanimated ? 'block':'none'}}>
+            <div>
             <button type="button" className='btn btn-success' id={Menustyle.buttons}>Your Writings</button>
             <button type="button" className='btn btn-success' id={Menustyle.buttons}>All Writings</button>
+            <button type="button" className='btn btn-success' id={Menustyle.buttons}>Liked Writings</button>
+            <button type="button" className='btn btn-success' id={Menustyle.buttons}>Write A Post</button>
             <button type="button" className='btn btn-success' id={Menustyle.buttons}>Public Chat</button>
             <button type="button" className='btn btn-success' id={Menustyle.buttons}>Log-Out</button>         
             </div>
-            </motion.div>
+            </div>
+            </Bounce>
             </React.Fragment>
     );
 }
