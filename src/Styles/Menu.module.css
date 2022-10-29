@@ -1,10 +1,22 @@
 .deneme{
-    /*background: gainsboro;*/
-    background-image: url("/public/cool-background.png");
-    height: 70vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+    background-color: white;
+    /*background-image: url("/public/cool-background.png");*/
+    
+ /* background-position: center;
+  background-repeat: no-repeat;*/
+  /*background-size: cover;*/
+}
+.backwithoutscroll{
+    min-height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background-color: tomato;
+    z-index: -23;
+    /*background-image: url("/public/cool-background.png");*/
+    /* background-size: cover;  
+  background-repeat: no-repeat; */
 }
 .shadow{
     justify-content: left;

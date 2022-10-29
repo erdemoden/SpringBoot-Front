@@ -17,7 +17,6 @@ const Menu = (props)=>{
       }
     );
         const beforeLoad = async()=>{
-          document.body.className = Menustyle.deneme;
           let response = await GetWithAuth("http://localhost:1998/auth/route");
           if(response.route == "/"){
           localStorage.removeItem("jwtsession");
@@ -25,6 +24,8 @@ const Menu = (props)=>{
           }
           else{
             props.setUserName(response.username);
+            document.body.className = Menustyle.deneme;
+            document.getElementById("background").className = Menustyle.backwithoutscroll;
             navigate(response.route);
           }
            }
@@ -42,12 +43,70 @@ const Menu = (props)=>{
           setmyslide({isanimated:false});
         }
       }
+      // window.addEventListener("scroll",()=>{
+      //   if(window.scrollY >= 70*window.innerHeight/100){
+      //  document.getElementById("background").className = Menustyle.deneme3;
+      //   }
+      //   else{
+      //     //document.getElementById("background").className = Menustyle.deneme;
+      //   }
+      // })
     return ( 
       <React.Fragment>
+        <div id='background'></div>
         <nav className={Menustyle.menu}>
             <h1 className={Menustyle.white}>{"Welcome "+props.username}</h1>
             <motion.div className={Menustyle.hamburger}onClick={rotateAndOpen} id = "hamburgerim" animate={{transform:myslide.isanimated ? "rotate(90deg)":"rotate(0deg)"}}></motion.div>
             </nav>
+            <Create_Post/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <Create_Post/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+
+            <Create_Post/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <Create_Post/>
+            <Create_Post/>
+            <Create_Post/>
             <Create_Post/>
             <Bounce left when = {myslide.isanimated}>
    <div className={Menustyle.opened} id = "slidemenu" style={{display : myslide.isanimated ? 'block':'none'}}>
@@ -61,6 +120,7 @@ const Menu = (props)=>{
             </div>
             </div>
             </Bounce>
+           
             </React.Fragment>
     );
 }

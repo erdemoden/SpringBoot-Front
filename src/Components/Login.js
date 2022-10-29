@@ -120,9 +120,12 @@ const Login  = (props)=>{
         return(
             <div>
             <Bounce left opposite when={!allState.show}>
-            <div className={formdesign.formBack}>
+            <div className={allState.title =="Login" ? formdesign.formBack : formdesign.formBackSignUp}>
                 <h1 className={formdesign.Title}>{allState.title}</h1>
                 <input type="text" name = "username" placeholder="Username" id='username'></input>
+                {allState.title =="Sign-Up" &&
+                <input type="text" name = "username" placeholder="E-Mail" id='username'></input>
+                }
                 <input type="password" name = "password" placeholder="Password" id='password'></input>
                 <input type="button" value={allState.title} onClick = {submit} ></input>
                 <p>{allState.message} <span style={{color:"blue",cursor:"pointer"}} onClick = {handleClick}>Click Here</span></p>
