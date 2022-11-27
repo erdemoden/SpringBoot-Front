@@ -41,7 +41,7 @@ const Login  = (props)=>{
         if(document.getElementById("password").value.trim().length ==0){
           swal({
             title: "Password Field Is Required!",
-            text: "You Should Create A Password",
+            text: "Please Write Your Password",
             icon: "error",
             button: "Close This Alert",
           });
@@ -49,11 +49,28 @@ const Login  = (props)=>{
         else if(document.getElementById("username").value.trim().length ==0){
           swal({
             title: "Username Field Is Required!",
-            text: "You Should Create A Username",
+            text: "Please Write Your Username",
             icon: "error",
             button: "Close This Alert",
           });
         }
+        else if(document.getElementById("username").value.trim().length >=15&&allState.title!="Login"){
+          swal({
+            title: "Username Can Not More Than 15 Characters",
+            text: "Please Try Another Username",
+            icon: "error",
+            button: "Close This Alert",
+          });
+         }
+       else if(document.getElementById("email")!=null && document.getElementById("email").value.trim().length ==0){
+        swal({
+          title: "E-Mail Field Is Required!",
+          text: "Please Write Your E-Mail",
+          icon: "error",
+          button: "Close This Alert",
+        });
+     
+       }
          else if(allState.title === "Sign-Up"){
           let post = await fetch('http://localhost:1998/auth/register',{
             method:'POST',
@@ -61,7 +78,7 @@ const Login  = (props)=>{
               'Content-Type': 'application/json'
             },
              credentials:'include',
-            body: JSON.stringify({username:document.getElementById("username").value, password:document.getElementById("password").value})
+            body: JSON.stringify({username:document.getElementById("username").value.trim(), email:document.getElementById("email").value,password:document.getElementById("password").value})
           });
           let postres = await post.json();
           if(postres.created == true){
@@ -84,7 +101,7 @@ const Login  = (props)=>{
               'Content-Type': 'application/json'
             },
              credentials:'include',
-            body: JSON.stringify({username:document.getElementById("username").value, password:document.getElementById("password").value})
+            body: JSON.stringify({username:document.getElementById("username").value.trim(), password:document.getElementById("password").value})
           });
           let postres = await post.json();
           if(postres.created == true){
@@ -122,9 +139,9 @@ const Login  = (props)=>{
             <Bounce left opposite when={!allState.show}>
             <div className={allState.title =="Login" ? formdesign.formBack : formdesign.formBackSignUp}>
                 <h1 className={formdesign.Title}>{allState.title}</h1>
-                <input type="text" name = "username" placeholder="Username" id='username'></input>
+                <input type="text" name = "username" placeholder={allState.title == 'Login' ? 'Username Or Email' : 'Username'} id='username'></input>
                 {allState.title =="Sign-Up" &&
-                <input type="text" name = "username" placeholder="E-Mail" id='username'></input>
+                <input type="text" name = "email" placeholder="E-Mail" id='email'></input>
                 }
                 <input type="password" name = "password" placeholder="Password" id='password'></input>
                 <input type="button" value={allState.title} onClick = {submit} ></input>

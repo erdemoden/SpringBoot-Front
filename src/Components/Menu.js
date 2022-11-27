@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import {GetWithAuth ,GetWithRefresh} from '../Services/HttpServices';
 import { Bounce,Fade, Flip, Roll, Rotate, Slide, Zoom} from 'react-reveal';
 import { AnimatePresence, motion } from 'framer-motion';
+import {Parallax} from 'react-parallax';
+import backgroundImage from "../Images/arkaplan-resim.jpg";
 import Create_Post from './Create-Post';
 const axios = require('axios');
 let rotation = 0;
@@ -53,10 +55,23 @@ const Menu = (props)=>{
       // })
     return ( 
       <React.Fragment>
-        <div id='background'></div>
+        <Parallax strength={600} bgImage={backgroundImage} style={{height:"100vh"}}>
+        </Parallax>
         <nav className={Menustyle.menu}>
             <h1 className={Menustyle.white}>{"Welcome "+props.username}</h1>
             <motion.div className={Menustyle.hamburger}onClick={rotateAndOpen} id = "hamburgerim" animate={{transform:myslide.isanimated ? "rotate(90deg)":"rotate(0deg)"}}></motion.div>
+                     <Bounce left when = {myslide.isanimated}>
+   <div className={Menustyle.opened} id = "slidemenu" style={{display : myslide.isanimated ? 'block':'none'}}>
+            <div>
+            <button type="button" className='btn btn-success' id={Menustyle.buttons}>Your Writings</button>
+            <button type="button" className='btn btn-success' id={Menustyle.buttons}>All Writings</button>
+            <button type="button" className='btn btn-success' id={Menustyle.buttons}>Liked Writings</button>
+            <button type="button" className='btn btn-success' id={Menustyle.buttons}>Write A Post</button>
+            <button type="button" className='btn btn-success' id={Menustyle.buttons}>Public Chat</button>
+            <button type="button" className='btn btn-success' id={Menustyle.buttons}>Log-Out</button>         
+            </div>
+            </div>
+            </Bounce>
             </nav>
             <Create_Post/>
             <br/>
@@ -108,18 +123,7 @@ const Menu = (props)=>{
             <Create_Post/>
             <Create_Post/>
             <Create_Post/>
-            <Bounce left when = {myslide.isanimated}>
-   <div className={Menustyle.opened} id = "slidemenu" style={{display : myslide.isanimated ? 'block':'none'}}>
-            <div>
-            <button type="button" className='btn btn-success' id={Menustyle.buttons}>Your Writings</button>
-            <button type="button" className='btn btn-success' id={Menustyle.buttons}>All Writings</button>
-            <button type="button" className='btn btn-success' id={Menustyle.buttons}>Liked Writings</button>
-            <button type="button" className='btn btn-success' id={Menustyle.buttons}>Write A Post</button>
-            <button type="button" className='btn btn-success' id={Menustyle.buttons}>Public Chat</button>
-            <button type="button" className='btn btn-success' id={Menustyle.buttons}>Log-Out</button>         
-            </div>
-            </div>
-            </Bounce>
+   
            
             </React.Fragment>
     );
