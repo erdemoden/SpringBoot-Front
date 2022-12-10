@@ -14,12 +14,32 @@ const [myslide,setmyslide] = useState(
         visible: { opacity: 1, y: 0 },
         hidden: { opacity: 0, y: -85 }
       };
+      const variants2 = {
+        open: {
+          clipPath: "inset(0% 0% 0% 0% round 10px)",
+          transition: {
+            type: "spring",
+            bounce: 0,
+            duration: 0.7,
+            delayChildren: 0.3,
+            staggerChildren: 0.05
+          }
+        },
+        closed: {
+          clipPath: "inset(10% 50% 90% 50% round 10px)",
+          transition: {
+            type: "spring",
+            bounce: 0,
+            duration: 0.3
+          }
+        }
+      }
 const {scrollY} = useViewportScroll();
 useEffect(()=>{
     return scrollY.onChange(()=>update());
 })
 function update(){
-if(scrollY.current<=50/*scrollY.current<scrollY.prev*/){
+if(scrollY.current<=20/*scrollY.current<scrollY.prev*/){
 setHidden(false);
 }
 else if(scrollY.current > 30 && scrollY.current > scrollY.prev){
@@ -40,8 +60,8 @@ return(
     <nav className={Menustyle.menu}>
         <h1 className={Menustyle.white}>{"Welcome "+props.username}</h1>
         <motion.div className={Menustyle.hamburger}onClick={rotateAndOpen} id = "hamburgerim" animate={{transform:myslide.isanimated ? "rotate(90deg)":"rotate(0deg)"}}></motion.div>
-                 <Bounce left when = {myslide.isanimated}>
-<div className={Menustyle.opened} id = "slidemenu" style={{display : myslide.isanimated ? 'block':'none'}}>
+       
+<motion.div className={Menustyle.opened} id = "slidemenu" /*style={{display : myslide.isanimated ? 'block':'block'}}*/ variants={variants2} animate = {myslide.isanimated ? 'open':'closed'} initial = {false}>
         <div>
         <button type="button" className='btn btn-success' id={Menustyle.buttons}>Your Writings</button>
         <button type="button" className='btn btn-success' id={Menustyle.buttons}>All Writings</button>
@@ -50,8 +70,8 @@ return(
         <button type="button" className='btn btn-success' id={Menustyle.buttons}>Public Chat</button>
         <button type="button" className='btn btn-success' id={Menustyle.buttons}>Log-Out</button>         
         </div>
-        </div>
-        </Bounce>
+        </motion.div>
+    
         </nav>
         </React.Fragment>
 );
