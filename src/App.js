@@ -10,7 +10,7 @@ class App extends React.Component {
     <BrowserRouter>
     <Routes>
       <Route path='/' element = {<Login title = 'Login' message = "Don't have Account " button = "Click Here"/>}/>
-    <Route path='/homepage' element={<Menu />} />
+    <Route path='/homepage' element={<Menu/>} />
     </Routes>
     </BrowserRouter>
   );

@@ -6,6 +6,7 @@ import Menustyle from'../Styles/Menu.module.css'
 import {useNavigate} from 'react-router-dom';
 import { useState ,useEffect } from 'react';
 import swal from 'sweetalert';
+import Swal from 'sweetalert2'
 import { connect } from 'react-redux';
 import {GetWithAuth ,GetWithRefresh} from '../Services/HttpServices';
 let number = 1;
@@ -72,7 +73,7 @@ const Login  = (props)=>{
      
        }
          else if(allState.title === "Sign-Up"){
-          let post = await fetch('http://localhost:1998/auth/register',{
+          let post = await fetch('http://localhost:1998/auth/beforeregister',{
             method:'POST',
             headers:{
               'Content-Type': 'application/json'
@@ -82,10 +83,39 @@ const Login  = (props)=>{
           });
           let postres = await post.json();
           if(postres.created == true){
-            localStorage.setItem("jwtsession",postres.accessToken);
+             Swal.fire({
+              html:`<h1>Please Write The Code We Sent To Your Email</h1>
+              <input type="text" id="code" class="swal2-input" placeholder="CODE">
+              <button id="send" class="btn btn-success">
+      SEND
+    </button><br/><br/>
+    You Have <strong></strong> seconds.<br/><br/>
+              `,
+              timer:90000,
+              icon: "success",
+              allowOutsideClick:false,
+              didOpen: ()=>{
+                const content = Swal.getHtmlContainer()
+                const $ = content.querySelector.bind(content)
+                const send = $('#send');
+                const code = $('#code');
+                send.addEventListener("click",async()=>{
+                  let post2 = await fetch('http://localhost:1998/auth/registerwithmail',{
+                    method:'POST',
+                    headers:{
+                      'Content-Type': 'application/json'
+                    },
+                     credentials:'include',
+                    body:JSON.stringify({key:code.value})
+                });
+              let postres2 = await post2.json();
+          if(postres2.created == true){
+            localStorage.setItem("jwtsession",postres2.accessToken);
             navigate('/homepage');
+            Swal.close();
           }
-          else if(postres.created == false){
+          else if(postres2.created == false){
+            Swal.close();
             swal({
               title: postres.error,
               text: "Please Check And Try Again",
@@ -93,6 +123,15 @@ const Login  = (props)=>{
               button: "Close This Alert",
             });
           }
+              });
+                Swal.showLoading();
+                setInterval(() => {
+                  Swal.getHtmlContainer().querySelector('strong')
+                    .textContent = (Swal.getTimerLeft() / 1000)
+                      .toFixed(0)
+                }, 100)
+             
+            }})
          }
          else if(allState.title === "Login"){
           let post = await fetch('http://localhost:1998/auth/login',{
@@ -118,6 +157,7 @@ const Login  = (props)=>{
           }
          }
       }
+    }
       useEffect(() =>{
         beforeLoad();
       },[]);
@@ -152,8 +192,6 @@ const Login  = (props)=>{
            
     );
         }
-    
-
 
 
 export default Login;
