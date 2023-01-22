@@ -24,3 +24,38 @@ return request;
     });
     return await response.json();
 }
+
+export const beforeRegister = async(url,username,email,password)=>{
+    const response = await fetch(url,{
+        method:'POST',
+        headers:{
+            'Content-Type': 'application/json'
+          },
+           credentials:'include',
+          body: JSON.stringify({username:username, email:email,password:password})
+    });
+    return await response.json();
+}
+
+export const registerWithMail = async(url,code)=>{
+const response = await fetch(url,{
+    method:'POST',
+    headers:{
+        'Content-Type': 'application/json'
+    },
+    credentials:'include',
+    body: JSON.stringify({key:code})
+});
+return await response.json();
+}
+export const beforeLogin = async(url,username,password)=>{
+    const response = await fetch(url,{
+        method:'POST',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        credentials:'include',
+        body: JSON.stringify({username:username,password:password})
+    });
+    return await response.json();
+}

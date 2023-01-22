@@ -8,7 +8,7 @@ import { useState ,useEffect } from 'react';
 import swal from 'sweetalert';
 import Swal from 'sweetalert2'
 import { connect } from 'react-redux';
-import {GetWithAuth ,GetWithRefresh} from '../Services/HttpServices';
+import {GetWithAuth ,GetWithRefresh,beforeRegister,registerWithMail, beforeLogin} from '../Services/HttpServices';
 let number = 1;
 const Login  = (props)=>{
   const navigate = useNavigate();
@@ -73,15 +73,7 @@ const Login  = (props)=>{
      
        }
          else if(allState.title === "Sign-Up"){
-          let post = await fetch('http://localhost:1998/auth/beforeregister',{
-            method:'POST',
-            headers:{
-              'Content-Type': 'application/json'
-            },
-             credentials:'include',
-            body: JSON.stringify({username:document.getElementById("username").value.trim(), email:document.getElementById("email").value,password:document.getElementById("password").value})
-          });
-          let postres = await post.json();
+          let postres = await beforeRegister('http://localhost:1998/auth/beforeregister',document.getElementById("username").value.trim(),document.getElementById("email").value,document.getElementById("password").value); 
           if(postres.created == true){
              Swal.fire({
               html:`<h1>Please Write The Code We Sent To Your Email</h1>
@@ -100,15 +92,7 @@ const Login  = (props)=>{
                 const send = $('#send');
                 const code = $('#code');
                 send.addEventListener("click",async()=>{
-                  let post2 = await fetch('http://localhost:1998/auth/registerwithmail',{
-                    method:'POST',
-                    headers:{
-                      'Content-Type': 'application/json'
-                    },
-                     credentials:'include',
-                    body:JSON.stringify({key:code.value})
-                });
-              let postres2 = await post2.json();
+                  let postres2 =  await registerWithMail('http://localhost:1998/auth/registerwithmail',code.value);
           if(postres2.created == true){
             localStorage.setItem("jwtsession",postres2.accessToken);
             navigate('/homepage');
@@ -117,7 +101,7 @@ const Login  = (props)=>{
           else if(postres2.created == false){
             Swal.close();
             swal({
-              title: postres.error,
+              title: postres2.error,
               text: "Please Check And Try Again",
               icon: "error",
               button: "Close This Alert",
@@ -133,19 +117,59 @@ const Login  = (props)=>{
              
             }})
          }
-         else if(allState.title === "Login"){
-          let post = await fetch('http://localhost:1998/auth/login',{
-            method:'POST',
-            headers:{
-              'Content-Type': 'application/json'
-            },
-             credentials:'include',
-            body: JSON.stringify({username:document.getElementById("username").value.trim(), password:document.getElementById("password").value})
+         else{
+          swal({
+            title: postres.error,
+            text: "Please Check And Try Again",
+            icon: "error",
+            button: "Close This Alert",
           });
-          let postres = await post.json();
+         }
+        }
+         else if(allState.title === "Login"){
+          let postres = await beforeLogin('http://localhost:1998/auth/beforelogin',document.getElementById("username").value.trim(),document.getElementById("password").value);
           if(postres.created == true){
+            Swal.fire({
+              html:`<h1>Please Write The Code We Sent To Your Email</h1>
+              <input type="text" id="code" class="swal2-input" placeholder="CODE">
+              <button id="send" class="btn btn-success">
+      SEND
+    </button><br/><br/>
+    You Have <strong></strong> seconds.<br/><br/>
+              `,
+              timer:90000,
+              icon: "success",
+              allowOutsideClick:false,
+              didOpen: ()=>{
+                const content = Swal.getHtmlContainer()
+                const $ = content.querySelector.bind(content)
+                const send = $('#send');
+                const code = $('#code');
+                send.addEventListener("click",async()=>{
+                  let postres2 =  await registerWithMail('http://localhost:1998/auth/loginwithmail',code.value);
+          if(postres2.created == true){
             localStorage.setItem("jwtsession",postres.accessToken);
             navigate('/homepage');
+            Swal.close();
+          }
+          else if(postres2.created == false){
+            Swal.close();
+            swal({
+              title: postres2.error,
+              text: "Please Check And Try Again",
+              icon: "error",
+              button: "Close This Alert",
+            });
+          }
+              });
+                Swal.showLoading();
+                setInterval(() => {
+                  Swal.getHtmlContainer().querySelector('strong')
+                    .textContent = (Swal.getTimerLeft() / 1000)
+                      .toFixed(0)
+                }, 100)
+             
+            }})
           }
           else if(postres.created === false){
             swal({
@@ -156,7 +180,7 @@ const Login  = (props)=>{
             });
           }
          }
-      }
+      
     }
       useEffect(() =>{
         beforeLoad();
@@ -190,8 +214,7 @@ const Login  = (props)=>{
             </Bounce>
             </div>
            
-    );
-        }
+    );}
 
-
+              
 export default Login;
