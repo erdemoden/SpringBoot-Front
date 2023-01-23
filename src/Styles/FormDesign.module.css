@@ -61,3 +61,15 @@ body{
 .formBack input[type="text"]:focus,.formBack input[type="password"]:focus,.formBackSignUp input[type="text"]:focus,.formBackSignUp input[type="password"]:focus{
     border-left: 40px solid black;
 }
+
+
+@media screen and (max-width:580px){
+    .formBack{
+        width: 300px;
+        padding: 25px;
+    }
+    .formBackSignUp{
+        width: 300px;
+        padding: 45px;
+    }
+}

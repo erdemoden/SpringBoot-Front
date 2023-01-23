@@ -24,7 +24,7 @@ const Menu = (props)=>{
     //   }
     // );
         const beforeLoad = async()=>{
-          let response = await GetWithAuth("http://localhost:1998/auth/route");
+          let response = await GetWithAuth("http://192.168.0.17:1998/auth/route");
           if(response.route == "/"){
           localStorage.removeItem("jwtsession");
           navigate(response.route);

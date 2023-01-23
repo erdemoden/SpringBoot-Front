@@ -55,7 +55,7 @@ export const beforeLogin = async(url,username,password)=>{
             'Content-Type': 'application/json'
         },
         credentials:'include',
-        body: JSON.stringify({username:username,password:password})
+        body: JSON.stringify({mailOrEmail:username,password:password})
     });
     return await response.json();
 }

@@ -6,6 +6,33 @@
   background-repeat: no-repeat;*/
   /*background-size: cover;*/
 }
+.logo{
+    background-image: url('/src/Images/logo.png');
+    width: 70px;
+    height: 70px;
+    background-size:cover;                      
+    background-repeat:no-repeat;
+    background-position:center center;
+    border-radius: 50%;
+    float:left;
+    position: absolute;
+  margin-left: 10px;
+}
+.appname{
+    position: absolute;
+    font-family: 'Caveat Brush', cursive;
+    color: white;
+  margin-left: 85px;
+  margin-top: 8px;
+}
+.bouncelogo{
+    position: absolute;
+    display: flex;
+    top: 5px;
+    height: 100px;
+    width: 200px;
+    align-items:center;
+}
 .backwithoutscroll{
     min-height: 100%;
     position: absolute;
