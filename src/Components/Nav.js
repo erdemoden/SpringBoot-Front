@@ -58,28 +58,18 @@ return(
     <React.Fragment>
     <motion.div style={{width:"100%",height:"200px",backgroundColor:'black',borderRadius:'0px 0px 30px 30px'}} variants={variants} animate={hidden ? 'hidden':'visible'} transition={{ ease: [0.1, 0.25, 0.3, 1], duration: 0.6 }}></motion.div>
     <nav className={Menustyle.menu}>
-      <Bounce left>
+      <Bounce left delay={200}>
       <div className ={Menustyle.bouncelogo}>
       <div className={Menustyle.logo}/>
-      <h1 className={Menustyle.appname}>MII</h1>
+      <div className={Menustyle.appname}></div>
       </div>
       </Bounce>
-        <h1 className={Menustyle.white}>{"Welcome "+props.username}</h1>
-       
-        <motion.div className={Menustyle.hamburger}onClick={rotateAndOpen} id = "hamburgerim" animate={{transform:myslide.isanimated ? "rotate(90deg)":"rotate(0deg)"}}></motion.div>
-       
-<motion.div className={Menustyle.opened} id = "slidemenu" /*style={{display : myslide.isanimated ? 'block':'block'}}*/ variants={variants2} animate = {myslide.isanimated ? 'open':'closed'} initial = {false}>
-        <div>
-        <button type="button" className='btn btn-success' id={Menustyle.buttons}>Your Writings</button>
-        <button type="button" className='btn btn-success' id={Menustyle.buttons}>All Writings</button>
-        <button type="button" className='btn btn-success' id={Menustyle.buttons}>Liked Writings</button>
-        <button type="button" className='btn btn-success' id={Menustyle.buttons}>Write A Post</button>
-        <button type="button" className='btn btn-success' id={Menustyle.buttons}>Public Chat</button>
-        <button type="button" className='btn btn-success' id={Menustyle.buttons}>Log-Out</button>         
-        </div>
+        <motion.div className={Menustyle.hamburger}onClick={rotateAndOpen} id = "hamburgerim" animate={{transform:myslide.isanimated ? "rotate(90deg)":"rotate(0deg)"}}>
         </motion.div>
-    
         </nav>
+        <Bounce right>
+        <div className={Menustyle.sidemenu}></div>
+        </Bounce>
         </React.Fragment>
 );
 
