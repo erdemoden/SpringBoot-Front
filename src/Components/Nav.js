@@ -1,8 +1,9 @@
 import React from 'react';
 import { motion,useViewportScroll } from "framer-motion"
 import { useEffect,useState } from "react";
-import { Bounce,Fade, Flip, Roll, Rotate, Slide, Zoom} from 'react-reveal';
+import { Bounce,Fade, Flip, Reveal, Roll, Rotate, Slide, Zoom} from 'react-reveal';
 import Menustyle from'../Styles/Menu.module.css'
+import SideMenu from './SideMenu';
 const Nav = (props)=>{
 const [myslide,setmyslide] = useState(
         {
@@ -67,9 +68,7 @@ return(
         <motion.div className={Menustyle.hamburger}onClick={rotateAndOpen} id = "hamburgerim" animate={{transform:myslide.isanimated ? "rotate(90deg)":"rotate(0deg)"}}>
         </motion.div>
         </nav>
-        <Bounce right>
-        <div className={Menustyle.sidemenu}></div>
-        </Bounce>
+        <SideMenu side={myslide.isanimated}/>
         </React.Fragment>
 );
 
