@@ -4,8 +4,8 @@ const SideMenu = (props)=>{
 
     return(
     <motion.div className = {Menustyle.sidemenu} initial = {{transform:"translate(170%)"}}animate={{transform: props.side ?"translate(20px)":"translate(170%)" }}>
-        <div className={Menustyle.userphoto}></div>
-        <h3>ERDEM</h3>
+        <div className={`${Menustyle.userphoto} ${Menustyle.flexitems}`}></div>
+        <h3 className={Menustyle.flexitems}>ERDEM</h3>
     </motion.div>
     );
 }
