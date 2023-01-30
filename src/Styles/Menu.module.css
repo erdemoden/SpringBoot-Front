@@ -7,12 +7,12 @@
   /*background-size: cover;*/
 }
 .sidemenu{
-    /*opacity: 0.94 !important;*/
+    opacity: 0.94 !important;
     display: flex;
     position: fixed;
     z-index: 8;
     height:70%;
-    width:50%;
+    width:40%;
     background-color:#808080;
     right: 20px;
     margin-top: -70px;
@@ -20,18 +20,27 @@
     align-items: center;
     flex-direction: column;
 }
+.sidescroll{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 50%;
+    overflow-y: auto;
+}
 .userphoto{
 background-image: url('/src/Images/userlogo.jpg');
 background-color: black;
-width: 100px;
-height: 100px;
+min-width: 70px;
+min-height: 70px;
 background-size:cover;
 background-repeat: no-repeat;
 background-position: center center;
 border-radius: 50%;
 }
 .flexitems{
-    margin-top: 5px;
+    margin-top: 15px;
+    color: white;
 }
 .logo{
     background-image: url('/src/Images/logo.png');
@@ -156,6 +165,9 @@ border-radius: 50%;
         width: 60px;
         height: 60px;
         background-size: 60px,60px;
+    }
+    .sidemenu{
+        width: 100%;
     }
 }
    
