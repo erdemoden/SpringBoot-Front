@@ -54,59 +54,22 @@ const Menu = (props)=>{
     return ( 
       <React.Fragment>
             <Nav username={props.username}/>
-            <Create_Post/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <Create_Post/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <Create_Post/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <Create_Post/>
+            {()=>{
+              switch(props.screen){
+                case 1:
+                return <Create_Post/>
+                case 2:
+                  return <UserScreen/>
+              }
+            }
+            }
             </React.Fragment>
     );
 }
 
 const mapStateToProps = (state)=>{
   return{
-    username:state.username
+    username:state.username,
   }
 }
 const mapDispatchToProps = (dispatch) =>{

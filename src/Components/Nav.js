@@ -4,6 +4,7 @@ import { useEffect,useState } from "react";
 import { Bounce,Fade, Flip, Reveal, Roll, Rotate, Slide, Zoom} from 'react-reveal';
 import Menustyle from'../Styles/Menu.module.css'
 import SideMenu from './SideMenu';
+import { connect } from 'react-redux';
 const Nav = (props)=>{
 const [myslide,setmyslide] = useState(
         {
@@ -50,9 +51,11 @@ else if(scrollY.current > 30 && scrollY.current > scrollY.prev){
 const rotateAndOpen = ()=>{
     if(myslide.isanimated == false){
     setmyslide({isanimated:true});
+  document.body.style.overflow = "hidden";
     }
     else{
       setmyslide({isanimated:false});
+    document.body.style.overflow = "";
     }
   }
 return(
@@ -73,4 +76,7 @@ return(
 );
 
 }
-export default Nav;
+const mapDispatchToProps = (dispatch)=>{
+
+}
+export default connect(null,mapDispatchToProps)(Nav);

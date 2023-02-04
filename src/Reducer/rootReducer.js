@@ -1,6 +1,7 @@
 const initialState = {
     allposts:[],
-    username:""
+    username:"",
+    screen:1,
 }
 
 
@@ -11,6 +12,11 @@ const rootReducer = (state = initialState,action)=>{
             return{
                 ...state,
                 username:action.username
+            }
+        case 'SET_SCREEN':
+            return{
+                ...state,
+                screen:action.screen
             }
     }
     
