@@ -19,12 +19,12 @@ const Login  = (props)=>{
     show:true
   });
    const beforeLoad = async ()=>{ 
-    let response = await GetWithAuth("http://192.168.0.18:1998/auth/route");
+    let response = await GetWithAuth("http://192.168.0.18:1998/auth/route","/homepage");
     if(response.route == "/"){
       document.body.className = background.deneme;
       localStorage.removeItem("jwtsession");
     }
-    else if(response.route == "homepage"){
+    else{
       document.body.className = Menustyle.deneme;
     }
     navigate(response.route);

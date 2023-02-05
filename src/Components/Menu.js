@@ -25,7 +25,7 @@ const Menu = (props)=>{
     // );
         const beforeLoad = async()=>{
           console.log(props.username);
-          let response = await GetWithAuth("http://192.168.0.18:1998/auth/route");
+          let response = await GetWithAuth("http://192.168.0.18:1998/auth/route","/homepage");
           if(response.route == "/"){
           localStorage.removeItem("jwtsession");
           navigate(response.route);
@@ -34,6 +34,7 @@ const Menu = (props)=>{
             props.setUserName(response.username);
             document.body.className = Menustyle.deneme;
             document.getElementById("background").className = Menustyle.backwithoutscroll;
+            console.log(response.route);
             navigate(response.route);
           }
            }
@@ -41,35 +42,17 @@ const Menu = (props)=>{
     useEffect(() =>{
         beforeLoad();
       },[]);
-      //fixed-top flex
-      //navbar navbar-dark bg-dark 
-      // window.addEventListener("scroll",()=>{
-      //   if(window.scrollY >= 70*window.innerHeight/100){
-      //  document.getElementById("background").className = Menustyle.deneme3;
-      //   }
-      //   else{
-      //     //document.getElementById("background").className = Menustyle.deneme;
-      //   }
-      // })
     return ( 
       <React.Fragment>
-            <Nav username={props.username}/>
-            {()=>{
-              switch(props.screen){
-                case 1:
-                return <Create_Post/>
-                case 2:
-                  return <UserScreen/>
-              }
-            }
-            }
-            </React.Fragment>
+        <Nav username={props.username}/>
+        <Create_Post/>
+        </React.Fragment>           
     );
 }
 
 const mapStateToProps = (state)=>{
   return{
-    username:state.username,
+    username:state.username
   }
 }
 const mapDispatchToProps = (dispatch) =>{

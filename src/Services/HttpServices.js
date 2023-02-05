@@ -13,13 +13,14 @@ body:JSON.stringify(body)
 });
 return request;
 }
- export const GetWithAuth = async(url)=>{
+ export const GetWithAuth = async(url,route)=>{
    const response = await fetch(url,{
         method:'GET',
         withCredentials:true,
         headers:{
             "Content-Type":"application/json",
-            "Authorization":localStorage.getItem("jwtsession")
+            "Authorization":localStorage.getItem("jwtsession"),
+            "Route":route
         }
     });
     return await response.json();
