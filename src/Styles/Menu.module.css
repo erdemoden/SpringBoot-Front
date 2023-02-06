@@ -30,6 +30,9 @@
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none; 
 }
+.sidescroll::-webkit-scrollbar {
+    display: none;
+}
 body::-webkit-scrollbar {
     display: none;
 }

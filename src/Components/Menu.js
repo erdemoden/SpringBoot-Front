@@ -18,11 +18,6 @@ const Menu = (props)=>{
     const location = useLocation();
     const {scrollYProgress} = useViewportScroll();
     console.log(scrollYProgress);
-    // const [myslide,setmyslide] = useState(
-    //   {
-    //     isanimated:false
-    //   }
-    // );
         const beforeLoad = async()=>{
           console.log(props.username);
           let response = await GetWithAuth("http://192.168.0.18:1998/auth/route","/homepage");
@@ -33,7 +28,7 @@ const Menu = (props)=>{
           else{
             props.setUserName(response.username);
             document.body.className = Menustyle.deneme;
-            document.getElementById("background").className = Menustyle.backwithoutscroll;
+            //document.getElementById("background").className = Menustyle.backwithoutscroll;
             console.log(response.route);
             navigate(response.route);
           }
@@ -45,6 +40,7 @@ const Menu = (props)=>{
     return ( 
       <React.Fragment>
         <Nav username={props.username}/>
+        <Create_Post/>
         <Create_Post/>
         </React.Fragment>           
     );

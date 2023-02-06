@@ -25,12 +25,13 @@ const ProfileScreen = (props)=>{
     return(
         <React.Fragment>
         <Nav username={props.username}/>
-        <div className={Design.image}/>
+        <motion.div className={Design.image} whileHover={{scale:1.1}} whileTap={{scale:0.9}}/>
         <div className={Design.flex}>
         <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder'}}>Posts</motion.button>
         <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder'}}>Likes</motion.button>
         <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder'}}>Comments</motion.button>
         <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder'}}>Change Image</motion.button>
+        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder'}}>30 Minute Block</motion.button>
         </div>
         </React.Fragment>
     );
