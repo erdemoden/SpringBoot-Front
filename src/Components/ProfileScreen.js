@@ -21,17 +21,23 @@ const ProfileScreen = (props)=>{
   useEffect(() =>{
       beforeLoad();
     },[]);
-
+    const uploadFile = ()=>{
+      let choose = document.getElementById("choose");
+      choose.click();
+    }
     return(
         <React.Fragment>
         <Nav username={props.username}/>
-        <motion.div className={Design.image} whileHover={{scale:1.1}} whileTap={{scale:0.9}}/>
+        <motion.div className={Design.image} whileHover={{scale:1.1}} whileTap={{scale:0.9}} onClick={uploadFile}/>
+        <input id='choose' type='file' style={{display:'none'}}/>
+        <div className={Design.flexs}>
         <div className={Design.flex}>
-        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder'}}>Posts</motion.button>
-        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder'}}>Likes</motion.button>
-        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder'}}>Comments</motion.button>
-        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder'}}>Change Image</motion.button>
-        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder'}}>30 Minute Block</motion.button>
+        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}}>Posts</motion.button>
+        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}}>Likes</motion.button>
+        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}}>Comments</motion.button>
+        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}}>Change Image</motion.button>
+        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}}>30 Minute Block</motion.button>
+        </div>
         </div>
         </React.Fragment>
     );
