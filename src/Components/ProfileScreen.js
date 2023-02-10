@@ -9,7 +9,7 @@ const ProfileScreen = (props)=>{
     const navigate = useNavigate();
     const beforeLoad = async()=>{
         console.log(props.username);
-        let response = await GetWithAuth("http://192.168.0.18:1998/auth/route","/profile");
+        let response = await GetWithAuth("http://192.168.0.23:1998/auth/route","/profile");
         if(response.route == "/"){
         localStorage.removeItem("jwtsession");
         navigate(response.route);
@@ -21,9 +21,13 @@ const ProfileScreen = (props)=>{
   useEffect(() =>{
       beforeLoad();
     },[]);
-    const uploadFile = ()=>{
-      let choose = document.getElementById("choose");
+    const uploadFile = async ()=>{
+      const choose = document.getElementById("choose");
       choose.click();
+      choose.addEventListener("change",()=>{
+      const formData = new FormData();
+      formData.append("userpic",choose.files[0]);
+      });
     }
     return(
         <React.Fragment>
