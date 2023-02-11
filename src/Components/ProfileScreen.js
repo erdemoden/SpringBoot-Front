@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import { useEffect, useState } from "react";
 import Design from '../Styles/ProfileScreen.module.css';
 import {GetWithAuth} from '../Services/HttpServices';
+import { uploadPhoto } from '../Services/UserPrefs';
 import Nav from './Nav';
 const ProfileScreen = (props)=>{
     const navigate = useNavigate();
@@ -27,6 +28,8 @@ const ProfileScreen = (props)=>{
       choose.addEventListener("change",()=>{
       const formData = new FormData();
       formData.append("userpic",choose.files[0]);
+      console.log(formData);
+      uploadPhoto("http://192.168.0.23:1998/user/userpic",formData);
       });
     }
     return(
