@@ -4,13 +4,14 @@ import {useNavigate} from 'react-router-dom';
 import { useEffect, useState } from "react";
 import Design from '../Styles/ProfileScreen.module.css';
 import {GetWithAuth} from '../Services/HttpServices';
-import { uploadPhoto } from '../Services/UserPrefs';
+import { uploadPhoto,getUserPhoto } from '../Services/UserPrefs';
+import { connect } from 'react-redux';
 import Nav from './Nav';
 const ProfileScreen = (props)=>{
     const navigate = useNavigate();
     const beforeLoad = async()=>{
         console.log(props.username);
-        let response = await GetWithAuth("http://192.168.0.23:1998/auth/route","/profile");
+        let response = await GetWithAuth("http://192.168.0.18:1998/auth/route","/profile");
         if(response.route == "/"){
         localStorage.removeItem("jwtsession");
         navigate(response.route);
@@ -25,11 +26,24 @@ const ProfileScreen = (props)=>{
     const uploadFile = async ()=>{
       const choose = document.getElementById("choose");
       choose.click();
-      choose.addEventListener("change",()=>{
+      choose.addEventListener("change",async()=>{
       const formData = new FormData();
       formData.append("userpic",choose.files[0]);
       console.log(formData);
-      uploadPhoto("http://192.168.0.23:1998/user/userpic",formData);
+      let response = await uploadPhoto("http://192.168.0.18:1998/user/userpic",formData);
+        if(response.error !=null){
+          swal({
+            title: response.error,
+            text: "Please Try After Some Time",
+            icon: "error",
+            button: "Close This Alert",
+          });
+        }
+        else{
+            props.setPhoto(response.picPath);
+            let url = getUserPhoto("http://192.168.0.18:1998/user/getphoto?location=",picPath);
+            // image değiştir
+        }
       });
     }
     return(
@@ -49,4 +63,14 @@ const ProfileScreen = (props)=>{
         </React.Fragment>
     );
 }
-export default ProfileScreen;
+const mapStateToProps = (state)=>{
+  return{
+    userpicpath:state.userpicpath
+  }
+}
+const mapDispatchToProps = (dispatch) =>{
+  return{
+    setPhoto: (userpicpath) =>{dispatch({'type':'SET_USERPIC',userpicpath})}
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(ProfileScreen);

@@ -20,7 +20,7 @@ const Menu = (props)=>{
     console.log(scrollYProgress);
         const beforeLoad = async()=>{
           console.log(props.username);
-          let response = await GetWithAuth("http://192.168.0.23:1998/auth/route","/homepage");
+          let response = await GetWithAuth("http://192.168.0.18:1998/auth/route","/homepage");
           if(response.route == "/"){
           localStorage.removeItem("jwtsession");
           navigate(response.route);

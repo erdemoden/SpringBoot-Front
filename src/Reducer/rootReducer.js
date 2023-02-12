@@ -2,6 +2,7 @@ const initialState = {
     allposts:[],
     username:"",
     screen:1,
+    userpicpath:""
 }
 
 
@@ -17,6 +18,11 @@ const rootReducer = (state = initialState,action)=>{
             return{
                 ...state,
                 screen:action.screen
+            }
+        case 'SET_USERPIC':
+            return{
+                ...state,
+                userpicpath:action.userpicpath
             }
     }
     
