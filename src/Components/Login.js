@@ -19,7 +19,7 @@ const Login  = (props)=>{
     show:true
   });
    const beforeLoad = async ()=>{ 
-    let response = await GetWithAuth("http://192.168.0.18:1998/auth/route","/homepage");
+    let response = await GetWithAuth("http://192.168.0.17:1998/auth/route","/homepage");
     if(response.route == "/"){
       document.body.className = background.deneme;
       localStorage.removeItem("jwtsession");
@@ -73,7 +73,7 @@ const Login  = (props)=>{
      
        }
          else if(allState.title === "Sign-Up"){
-          let postres = await beforeRegister('http://192.168.0.18:1998/auth/beforeregister',document.getElementById("username").value.trim(),document.getElementById("email").value,document.getElementById("password").value); 
+          let postres = await beforeRegister('http://192.168.0.17:1998/auth/beforeregister',document.getElementById("username").value.trim(),document.getElementById("email").value,document.getElementById("password").value); 
           if(postres.created == true){
              Swal.fire({
               html:`<h1>Please Write The Code We Sent To Your Email</h1>
@@ -93,7 +93,7 @@ const Login  = (props)=>{
                 const send = $('#send');
                 const code = $('#code');
                 send.addEventListener("click",async()=>{
-                  let postres2 =  await registerWithMail('http://192.168.0.18:1998/auth/registerwithmail',code.value.trim().toLowerCase());
+                  let postres2 =  await registerWithMail('http://192.168.0.17:1998/auth/registerwithmail',code.value.trim().toLowerCase());
           if(postres2.created == true){
             localStorage.setItem("jwtsession",postres2.accessToken);
             navigate('/homepage');
@@ -128,7 +128,7 @@ const Login  = (props)=>{
          }
         }
          else if(allState.title === "Login"){
-          let postres = await beforeLogin('http://192.168.0.18:1998/auth/beforelogin',document.getElementById("username").value.trim(),document.getElementById("password").value);
+          let postres = await beforeLogin('http://192.168.0.17:1998/auth/beforelogin',document.getElementById("username").value.trim(),document.getElementById("password").value);
           if(postres.created == true){
             Swal.fire({
               html:`<h1>Please Write The Code We Sent To Your Email</h1>
@@ -150,7 +150,7 @@ const Login  = (props)=>{
                 const send = $('#send');
                 const code = $('#code');
                 send.addEventListener("click",async()=>{
-                  let postres2 =  await registerWithMail('http://192.168.0.18:1998/auth/loginwithmail',code.value.trim().toLowerCase());
+                  let postres2 =  await registerWithMail('http://192.168.0.17:1998/auth/loginwithmail',code.value.trim().toLowerCase());
           if(postres2.created == true){
             localStorage.setItem("jwtsession",postres.accessToken);
             navigate('/homepage');

@@ -7,18 +7,21 @@ import {GetWithAuth} from '../Services/HttpServices';
 import { uploadPhoto,getUserPhoto } from '../Services/UserPrefs';
 import { connect } from 'react-redux';
 import Nav from './Nav';
+import swal from 'sweetalert';
 const ProfileScreen = (props)=>{
     const navigate = useNavigate();
     const beforeLoad = async()=>{
         console.log(props.username);
-        let response = await GetWithAuth("http://192.168.0.18:1998/auth/route","/profile");
+        let response = await GetWithAuth("http://192.168.0.17:1998/auth/route","/profile");
         if(response.route == "/"){
         localStorage.removeItem("jwtsession");
         navigate(response.route);
         }
         else{
           navigate(response.route);
+
         }
+        console.log(props.userpicpath);
          }
   useEffect(() =>{
       beforeLoad();
@@ -30,7 +33,7 @@ const ProfileScreen = (props)=>{
       const formData = new FormData();
       formData.append("userpic",choose.files[0]);
       console.log(formData);
-      let response = await uploadPhoto("http://192.168.0.18:1998/user/userpic",formData);
+      let response = await uploadPhoto("http://192.168.0.17:1998/user/userpic",formData);
         if(response.error !=null){
           swal({
             title: response.error,
@@ -41,15 +44,15 @@ const ProfileScreen = (props)=>{
         }
         else{
             props.setPhoto(response.picPath);
-            let url = getUserPhoto("http://192.168.0.18:1998/user/getphoto?location=",picPath);
-            // image değiştir
+            //let url = getUserPhoto("http://192.168.0.18:1998/user/getphoto?location=",picPath);
+            //document.getElementById("userphoto").style.backgroundImage = `url(http://192.168.0.17:1998/user/getphoto?location=${props.userpicpath})`;
         }
       });
     }
     return(
         <React.Fragment>
         <Nav username={props.username}/>
-        <motion.div className={Design.image} whileHover={{scale:1.1}} whileTap={{scale:0.9}} onClick={uploadFile}/>
+        <motion.div className={Design.image} id= "userphoto" whileHover={{scale:1.1}} whileTap={{scale:0.9}} onClick={uploadFile} style={{backgroundImage:`url(http://192.168.0.17:1998/user/getphoto?location=${props.userpicpath})`}}/>
         <input id='choose' type='file' style={{display:'none'}}/>
         <div className={Design.flexs}>
         <div className={Design.flex}>

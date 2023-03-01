@@ -1,6 +1,5 @@
 
 export const uploadPhoto = async(url,photo)=>{
-
     let response = await fetch(url,{
         method:'POST',
 headers:{

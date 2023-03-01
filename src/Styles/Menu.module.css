@@ -37,11 +37,10 @@ body::-webkit-scrollbar {
     display: none;
 }
 .userphoto{
-background-image: url('/src/Images/userlogo.jpg');
 background-color: black;
 min-width: 70px;
 min-height: 70px;
-background-size:cover;
+background-size:70px 70px;
 background-repeat: no-repeat;
 background-position: center center;
 border-radius: 50%;
