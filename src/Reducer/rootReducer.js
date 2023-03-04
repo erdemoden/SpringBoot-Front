@@ -2,7 +2,8 @@ const initialState = {
     allposts:[],
     username:"",
     screen:1,
-    userpicpath:""
+    userpicpath:"",
+    jwtsession:""
 }
 
 
@@ -23,6 +24,11 @@ const rootReducer = (state = initialState,action)=>{
             return{
                 ...state,
                 userpicpath:action.userpicpath
+            }
+        case 'SET_JWTSESSION':
+            return{
+                ...state,
+                jwtsession:action.jwtsession
             }
     }
     

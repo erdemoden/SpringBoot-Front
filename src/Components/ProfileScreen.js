@@ -12,14 +12,14 @@ const ProfileScreen = (props)=>{
     const navigate = useNavigate();
     const beforeLoad = async()=>{
         console.log(props.username);
-        let response = await GetWithAuth("http://192.168.0.17:1998/auth/route","/profile");
+        let response = await GetWithAuth("http://192.168.0.17:1998/auth/route","/profile",props.jwtsession);
         if(response.route == "/"){
-        localStorage.removeItem("jwtsession");
+        //localStorage.removeItem("jwtsession");
+        props.setJwtSession("");
         navigate(response.route);
         }
         else{
           navigate(response.route);
-
         }
         console.log(props.userpicpath);
          }
@@ -33,7 +33,7 @@ const ProfileScreen = (props)=>{
       const formData = new FormData();
       formData.append("userpic",choose.files[0]);
       console.log(formData);
-      let response = await uploadPhoto("http://192.168.0.17:1998/user/userpic",formData);
+      let response = await uploadPhoto("http://192.168.0.17:1998/user/userpic",formData,props.jwtsession);
         if(response.error !=null){
           swal({
             title: response.error,
@@ -68,12 +68,14 @@ const ProfileScreen = (props)=>{
 }
 const mapStateToProps = (state)=>{
   return{
-    userpicpath:state.userpicpath
+    userpicpath:state.userpicpath,
+    jwtsession:state.jwtsession
   }
 }
 const mapDispatchToProps = (dispatch) =>{
   return{
-    setPhoto: (userpicpath) =>{dispatch({'type':'SET_USERPIC',userpicpath})}
+    setPhoto: (userpicpath) =>{dispatch({'type':'SET_USERPIC',userpicpath})},
+    setJwtSession: (jwtsession) => (dispatch({'type':'SET_JWTSESSION',jwtsession}))
   }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(ProfileScreen);

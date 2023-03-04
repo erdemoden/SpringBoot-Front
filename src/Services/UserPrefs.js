@@ -1,9 +1,9 @@
 
-export const uploadPhoto = async(url,photo)=>{
+export const uploadPhoto = async(url,photo,jwtsession)=>{
     let response = await fetch(url,{
         method:'POST',
 headers:{
-    "Authorization":localStorage.getItem("jwtsession")
+    "Authorization":jwtsession
 },
 body:photo
     });

@@ -19,10 +19,11 @@ const Login  = (props)=>{
     show:true
   });
    const beforeLoad = async ()=>{ 
-    let response = await GetWithAuth("http://192.168.0.17:1998/auth/route","/homepage");
+    let response = await GetWithAuth("http://192.168.0.17:1998/auth/route","/homepage",props.jwtsession);
     if(response.route == "/"){
       document.body.className = background.deneme;
-      localStorage.removeItem("jwtsession");
+      props.setJwtSession("");
+      //localStorage.removeItem("jwtsession");
     }
     else{
       document.body.className = Menustyle.deneme;
@@ -95,7 +96,8 @@ const Login  = (props)=>{
                 send.addEventListener("click",async()=>{
                   let postres2 =  await registerWithMail('http://192.168.0.17:1998/auth/registerwithmail',code.value.trim().toLowerCase());
           if(postres2.created == true){
-            localStorage.setItem("jwtsession",postres2.accessToken);
+            props.setJwtSession(postres2.accessToken);
+            //localStorage.setItem("jwtsession",postres2.accessToken);
             navigate('/homepage');
             Swal.close();
           }
@@ -150,10 +152,12 @@ const Login  = (props)=>{
                 const send = $('#send');
                 const code = $('#code');
                 send.addEventListener("click",async()=>{
-                  let postres2 =  await registerWithMail('http://192.168.0.17:1998/auth/loginwithmail',code.value.trim().toLowerCase());
+                let postres2 =  await registerWithMail('http://192.168.0.17:1998/auth/loginwithmail',code.value.trim().toLowerCase());
           if(postres2.created == true){
-            localStorage.setItem("jwtsession",postres.accessToken);
-            navigate('/homepage');
+            props.setJwtSession(postres.accessToken.toString());
+            console.log(postres.accessToken);
+            //localStorage.setItem("jwtsession",postres.accessToken);
+           navigate('/homepage');
             Swal.close();
           }
           else if(postres2.created == false){
@@ -219,6 +223,15 @@ const Login  = (props)=>{
             </div>
            
     );}
-
+    const mapStateToProps = (state)=>{
+      return{
+        jwtsession:state.jwtsession
+      }
+    }
+    const mapDispatchToProps = (dispatch) =>{
+      return{
+        setJwtSession: (jwtsession) =>{ dispatch({'type':'SET_JWTSESSION',jwtsession})}
+      }
+    }
               
-export default Login;
+export default connect(mapStateToProps,mapDispatchToProps) (Login);

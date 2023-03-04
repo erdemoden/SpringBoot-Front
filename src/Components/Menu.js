@@ -20,13 +20,15 @@ const Menu = (props)=>{
     console.log(scrollYProgress);
         const beforeLoad = async()=>{
           console.log(props.username);
-          let response = await GetWithAuth("http://192.168.0.17:1998/auth/route","/homepage");
+          let response = await GetWithAuth("http://192.168.0.17:1998/auth/route","/homepage",props.jwtsession);
           if(response.route == "/"){
-          localStorage.removeItem("jwtsession");
+          props.setJwtSession("");
+          //localStorage.removeItem("jwtsession");
           navigate(response.route);
           }
           else{
             props.setUserName(response.username);
+            props.setUserPicPath(response.location);
             document.body.className = Menustyle.deneme;
             //document.getElementById("background").className = Menustyle.backwithoutscroll;
             console.log(response.route);
@@ -48,12 +50,16 @@ const Menu = (props)=>{
 
 const mapStateToProps = (state)=>{
   return{
-    username:state.username
+    username:state.username,
+    jwtsession:state.jwtsession,
+    userpicpath:state.userpicpath
   }
 }
 const mapDispatchToProps = (dispatch) =>{
   return{
-    setUserName: (username) =>{ dispatch({'type':'SET_NAME',username})}
+    setUserName: (username) =>{ dispatch({'type':'SET_NAME',username})},
+    setJwtSession: (jwtsession) =>{ dispatch({'type':'SET_JWTSESSION',jwtsession})},
+    setUserPicPath:(userpicpath) =>{ dispatch({'type':'SET_USERPIC',userpicpath})}
   }
 }
 
