@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+.ql-editor{
+  height: 700px !important;
+  text-align: center !important;
+}
+.quill{
+  margin: 0 auto;
+  margin-top: 30px;
+  width: 90%;
+}
+.ql-blank{
+  overflow-y: scroll !important;
+}

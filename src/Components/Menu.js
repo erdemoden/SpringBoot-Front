@@ -42,8 +42,6 @@ const Menu = (props)=>{
     return ( 
       <React.Fragment>
         <Nav username={props.username}/>
-        <Create_Post/>
-        <Create_Post/>
         </React.Fragment>           
     );
 }

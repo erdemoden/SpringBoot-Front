@@ -5,6 +5,7 @@ import Menu from './Components/Menu';
 import Login from './Components/Login';
 import { BrowserRouter, Route, Routes,useNavigate } from 'react-router-dom';
 import ProfileScreen from './Components/ProfileScreen';
+import Create_Post from './Components/Create-Post';
 class App extends React.Component {
  render(){
   return (
@@ -13,6 +14,7 @@ class App extends React.Component {
       <Route path='/' element = {<Login title = 'Login' message = "Don't have Account " button = "Click Here"/>}/>
     <Route path='/homepage' element={<Menu/>} />
     <Route path='/profile' element={<ProfileScreen/>}/>
+    <Route path='/create-post' element={<Create_Post/>}/>
     </Routes>
     </BrowserRouter>
   );

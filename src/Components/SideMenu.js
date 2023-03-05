@@ -10,7 +10,7 @@ const SideMenu = (props)=>{
         <h5 className={Menustyle.flexitems}>{props.username.toUpperCase()}</h5>
         <div className={Menustyle.sidescroll}>
         <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder'}} onClick={()=>{document.body.style.overflow = ""; navigate("/homepage")}}>Home Page</motion.button>
-        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder'}}>Create Post</motion.button>
+        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder'}} onClick={()=>{navigate("/create-post")}}>Create Post</motion.button>
         <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder'}}>Communities</motion.button>
         <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder'}}>Create Community</motion.button>
         </div>
