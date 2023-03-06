@@ -145,6 +145,7 @@ border-radius: 50%;
 }
 .menu{
     display: flex;
+    z-index: 1;
     flex-direction: column;
     position: fixed;
     width: 100%;

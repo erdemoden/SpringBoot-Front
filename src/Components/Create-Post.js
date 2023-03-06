@@ -10,16 +10,23 @@ const [body,setBody] = useState("");
 const quillRef = useRef(null);
 const handleBody = (e)=>{
     setBody(e);
-    quillRef.current.getEditor().root.style.textAlign="center";
-    console.log(quillRef.current.getEditor().root.outerHTML);
+    console.log(body);
 }
 return(
 <React.Fragment>
 <Nav username={props.username}/>
+<div className='arka'>
 <ReactQuill placeholder='Write Something You Want To Write....'
 modules={Create_Post.modules}
 formats={Create_Post.formats}
 onChange={handleBody}
+value={body}
+ref={quillRef}
+/>
+</div>
+<ReactQuill placeholder='Write Something You Want To Write....'
+modules={Create_Post.module2}
+readOnly={true}
 value={body}
 ref={quillRef}
 style={{ backgroundColor: 'white', color: 'black' }}
@@ -39,6 +46,9 @@ Create_Post.modules = {
         [{ align: 'center' }]
     ],
 };
+Create_Post.module2 = {
+    toolbar:false
+}
 Create_Post.formats = [
     "header",
     "font",

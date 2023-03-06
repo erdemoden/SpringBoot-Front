@@ -48,3 +48,13 @@
 .ql-blank{
   overflow-y: scroll !important;
 }
+.ql-video{
+  margin: 0 auto;
+}
+.arka{
+  z-index: 10;
+}
+.ql-editor p img{
+  width: 30%;
+  height: 30%;
+}
