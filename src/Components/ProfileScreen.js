@@ -12,7 +12,7 @@ const ProfileScreen = (props)=>{
     const navigate = useNavigate();
     const beforeLoad = async()=>{
         console.log(props.username);
-        let response = await GetWithAuth("http://192.168.0.17:1998/auth/route","/profile",props.jwtsession);
+        let response = await GetWithAuth("http://192.168.0.18:1998/auth/route","/profile",props.jwtsession);
         if(response.route == "/"){
         //localStorage.removeItem("jwtsession");
         props.setJwtSession("");
@@ -33,7 +33,7 @@ const ProfileScreen = (props)=>{
       const formData = new FormData();
       formData.append("userpic",choose.files[0]);
       console.log(formData);
-      let response = await uploadPhoto("http://192.168.0.17:1998/user/userpic",formData,props.jwtsession);
+      let response = await uploadPhoto("http://192.168.0.18:1998/user/userpic",formData,props.jwtsession);
         if(response.error !=null){
           swal({
             title: response.error,
@@ -52,7 +52,7 @@ const ProfileScreen = (props)=>{
     return(
         <React.Fragment>
         <Nav username={props.username}/>
-        <motion.div className={Design.image} id= "userphoto" whileHover={{scale:1.1}} whileTap={{scale:0.9}} onClick={uploadFile} style={{backgroundImage:`url(http://192.168.0.17:1998/user/getphoto?location=${props.userpicpath})`}}/>
+        <motion.div className={Design.image} id= "userphoto" whileHover={{scale:1.1}} whileTap={{scale:0.9}} onClick={uploadFile} style={{backgroundImage:`url(http://192.168.0.18:1998/user/getphoto?location=${props.userpicpath})`}}/>
         <input id='choose' type='file' style={{display:'none'}}/>
         <div className={Design.flexs}>
         <div className={Design.flex}>

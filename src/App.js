@@ -6,6 +6,7 @@ import Login from './Components/Login';
 import { BrowserRouter, Route, Routes,useNavigate } from 'react-router-dom';
 import ProfileScreen from './Components/ProfileScreen';
 import Create_Post from './Components/Create-Post';
+import CreateBlog from './Components/Create-Blog';
 class App extends React.Component {
  render(){
   return (
@@ -15,6 +16,7 @@ class App extends React.Component {
     <Route path='/homepage' element={<Menu/>} />
     <Route path='/profile' element={<ProfileScreen/>}/>
     <Route path='/create-post' element={<Create_Post/>}/>
+    <Route path='/create-blog' element={<CreateBlog/>}/>
     </Routes>
     </BrowserRouter>
   );

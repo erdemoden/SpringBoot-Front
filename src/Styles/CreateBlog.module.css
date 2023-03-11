@@ -1,0 +1,13 @@
+.textarea{
+    display: block;
+    resize: none;
+    width: 80%;
+    height: 300px;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+.titles{
+    display: block;
+    margin: 0 auto;
+    margin-top: 30px;
+}
