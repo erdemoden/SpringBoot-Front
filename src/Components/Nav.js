@@ -79,4 +79,9 @@ return(
 const mapDispatchToProps = dispatch=>{
 
 }
-export default connect(null,mapDispatchToProps)(Nav);
+const mapStateToProps = (state)=>{
+  return{
+    username:state.username
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Nav);

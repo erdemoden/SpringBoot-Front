@@ -3,7 +3,8 @@ const initialState = {
     username:"",
     screen:1,
     userpicpath:"",
-    jwtsession:""
+    jwtsession:"",
+    followedblogs:[],
 }
 
 
@@ -29,6 +30,11 @@ const rootReducer = (state = initialState,action)=>{
             return{
                 ...state,
                 jwtsession:action.jwtsession
+            }
+        case 'SET_FOLLOWEDBLOGS':
+            return{
+                ...state,
+                followedblogs:action.followedblogs
             }
     }
     

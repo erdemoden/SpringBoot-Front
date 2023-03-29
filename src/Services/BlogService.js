@@ -1,17 +1,19 @@
 
-export const CreateBlog = async (url,title,subject,jwtsession)=>{
+export const CreateNewBlog = async (url,title,subject,jwtsession)=>{
   
-    let request = await fetch(url,{
+    let response = await fetch(url,{
         method:"POST",
-        body:{
+        body:JSON.stringify({
             title:title,
             subject:subject
-        },
+        }),
+        credentials:'include',
         headers:{
             "Content-Type":"application/json",
             "Authorization":jwtsession,
         }
     });
+    return await response.json();
 }
 
 export const GetBlogsByUserId = async (url,jwtsession)=>{
