@@ -18,8 +18,9 @@ const Login  = (props)=>{
     button:props.button,
     show:true
   });
-   const beforeLoad = async ()=>{ 
-    console.log(process.env.REACT_APP_ROOT_URL);
+  const [render,setRender] = useState(false);
+   const deneme = async ()=>{
+    if(render == false){
     let response = await GetWithAuth(`${process.env.REACT_APP_ROOT_URL}/auth/route`,"/homepage",props.jwtsession);
     if(response.route == "/"){
       document.body.className = background.deneme;
@@ -29,7 +30,24 @@ const Login  = (props)=>{
     else{
       document.body.className = Menustyle.deneme;
     }
+    setRender(true);
     navigate(response.route);
+  }
+  }
+  deneme();
+   const beforeLoad = async ()=>{ 
+    console.log(process.env.REACT_APP_ROOT_URL);
+   /* let response = await GetWithAuth(`${process.env.REACT_APP_ROOT_URL}/auth/route`,"/homepage",props.jwtsession);
+    if(response.route == "/"){
+      document.body.className = background.deneme;
+      props.setJwtSession("");
+      //localStorage.removeItem("jwtsession");
+    }
+    else{
+      document.body.className = Menustyle.deneme;
+    }
+    setRender(true);
+    navigate(response.route);*/
      }
       const handleClick = ()=>{
           if(allState.show === false && number === 1){
@@ -223,7 +241,7 @@ const Login  = (props)=>{
             </div>
             </Bounce>
             </div>
-           
+              
     );}
     const mapStateToProps = (state)=>{
       return{
