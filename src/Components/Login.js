@@ -12,15 +12,15 @@ import {GetWithAuth ,GetWithRefresh,beforeRegister,registerWithMail, beforeLogin
 let number = 1;
 const Login  = (props)=>{
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
   const [allState,setAllState] = useState({
     title:props.title,
     message:props.message,
     button:props.button,
     show:true
   });
-  const [render,setRender] = useState(false);
-   const deneme = async ()=>{
-    if(render == false){
+   const beforeLoad = async ()=>{ 
+    console.log(process.env.REACT_APP_ROOT_URL);
     let response = await GetWithAuth(`${process.env.REACT_APP_ROOT_URL}/auth/route`,"/homepage",props.jwtsession);
     if(response.route == "/"){
       document.body.className = background.deneme;
@@ -30,24 +30,8 @@ const Login  = (props)=>{
     else{
       document.body.className = Menustyle.deneme;
     }
-    setRender(true);
+    setIsLoading(false);
     navigate(response.route);
-  }
-  }
-  deneme();
-   const beforeLoad = async ()=>{ 
-    console.log(process.env.REACT_APP_ROOT_URL);
-   /* let response = await GetWithAuth(`${process.env.REACT_APP_ROOT_URL}/auth/route`,"/homepage",props.jwtsession);
-    if(response.route == "/"){
-      document.body.className = background.deneme;
-      props.setJwtSession("");
-      //localStorage.removeItem("jwtsession");
-    }
-    else{
-      document.body.className = Menustyle.deneme;
-    }
-    setRender(true);
-    navigate(response.route);*/
      }
       const handleClick = ()=>{
           if(allState.show === false && number === 1){
@@ -226,6 +210,9 @@ const Login  = (props)=>{
             }
           }, 300);
       },[allState]);
+      if (isLoading) {
+        return <div></div>;
+      }
         return(
             <div>
             <Bounce left opposite when={!allState.show}>
