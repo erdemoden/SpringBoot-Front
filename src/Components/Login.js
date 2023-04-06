@@ -8,6 +8,7 @@ import { useState ,useEffect } from 'react';
 import swal from 'sweetalert';
 import Swal from 'sweetalert2'
 import { connect } from 'react-redux';
+import { Oval } from 'react-loader-spinner';
 import {GetWithAuth ,GetWithRefresh,beforeRegister,registerWithMail, beforeLogin} from '../Services/HttpServices';
 let number = 1;
 const Login  = (props)=>{
@@ -211,7 +212,14 @@ const Login  = (props)=>{
           }, 300);
       },[allState]);
       if (isLoading) {
-        return <div></div>;
+        return <div className={formdesign.loading}>
+          <Oval
+          width="50"
+          height="50"
+          color="black"
+          ariaLabel='loading'
+          />
+        </div>;
       }
         return(
             <div>

@@ -2,11 +2,13 @@ import { motion,useViewportScroll } from "framer-motion"
 import Menustyle from'../Styles/Menu.module.css'
 import { connect } from 'react-redux';
 import {useNavigate,useLocation} from 'react-router-dom';
+import { useState } from "react";
 const SideMenu = (props)=>{
     const navigate = useNavigate();
+    const [imageUrl, setImageUrl] = useState(props.userpicpath);
     return(
     <motion.div className = {Menustyle.sidemenu} initial = {{transform:"translate(170%)"}}animate={{transform: props.side ?"translate(20px)":"translate(170%)" }}>
-        <motion.div style ={{backgroundImage:`url(${process.env.REACT_APP_ROOT_URL}/user/getphoto?location=${props.userpicpath})`}} className={`${Menustyle.userphoto} ${Menustyle.flexitems}`}whileHover={{scale:1.1}} whileTap={{scale:0.9}} onClick={()=>{document.body.style.overflow = ""; navigate("/profile")}}></motion.div>
+        <motion.div style ={{backgroundImage:`url(${props.userpicpath}`}} className={`${Menustyle.userphoto} ${Menustyle.flexitems}`}whileHover={{scale:1.1}} whileTap={{scale:0.9}} onClick={()=>{document.body.style.overflow = ""; navigate("/profile")}}></motion.div>
         <h5 className={Menustyle.flexitems}>{props.username.toUpperCase()}</h5>
         <div className={Menustyle.sidescroll}>
         <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder'}} onClick={()=>{document.body.style.overflow = ""; navigate("/homepage")}}>Home Page</motion.button>

@@ -10,7 +10,7 @@ import Nav from './Nav';
 import swal from 'sweetalert';
 const ProfileScreen = (props)=>{
     const navigate = useNavigate();
-    const [imageUrl, setImageUrl] = useState("");
+    const [imageUrl, setImageUrl] = useState(props.userpicpath);
     const beforeLoad = async()=>{
         console.log(props.username);
         let response = await GetWithAuth(`${process.env.REACT_APP_ROOT_URL}/auth/route`,"/profile",props.jwtsession);
@@ -26,15 +26,18 @@ const ProfileScreen = (props)=>{
          }
   useEffect(() =>{
       beforeLoad();
-      setImageUrl(`${process.env.REACT_APP_ROOT_URL}/user/getphoto?location=${props.userpicpath}`);
     },[]);
+    /*useEffect(() => {
+      setImageUrl(props.userpicpath);
+    }, [props.userpicpath]);*/
     const uploadFile = async ()=>{
       const choose = document.getElementById("choose");
       choose.click();
       choose.addEventListener("change",async()=>{
-        const file = choose.files[0];
-    const imageUrl = URL.createObjectURL(file);
-    setImageUrl(imageUrl); 
+    //     const file = choose.files[0];
+    // const imageUrl = URL.createObjectURL(file);
+    // setImageUrl(imageUrl); 
+    // props.setPhoto(imageUrl)
       const formData = new FormData();
       formData.append("userpic",choose.files[0]);
       console.log(formData);
@@ -49,15 +52,15 @@ const ProfileScreen = (props)=>{
         }
         else{
             props.setPhoto(response.picPath);
-            const updatedImageUrl = `${process.env.REACT_APP_ROOT_URL}/user/getphoto?location=${response.picPath}`;
-            setImageUrl(updatedImageUrl);
+            console.log(response.picPath);
+            setImageUrl(response.picPath);
         }
       });
     }
     return(
         <React.Fragment>
         <Nav username={props.username}/>
-        <motion.div className={Design.image} id= "userphoto" whileHover={{scale:1.1}} whileTap={{scale:0.9}} onClick={uploadFile} style={{backgroundImage:`url(${imageUrl})`}}/>
+        <motion.div className={Design.image} id= "userphoto" whileHover={{scale:1.1}} whileTap={{scale:0.9}} onClick={uploadFile} style={{backgroundImage:`url(${props.userpicpath})`}}/>
         <input id='choose' type='file' style={{display:'none'}}/>
         <div className={Design.flexs}>
         <div className={Design.flex}>

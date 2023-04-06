@@ -35,7 +35,12 @@ const Menu = (props)=>{
             navigate(response.route);
           }
            }
-
+           useEffect(() => {
+            if (!props.userpicpath || props.userpicpath.length === 0) {
+              props.setUserPicPath(process.env.REACT_APP_USER_LOGO);
+            }
+          }, [props.userpicpath]);
+          
     useEffect(() =>{
         beforeLoad();
       },[]);
