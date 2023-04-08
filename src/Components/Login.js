@@ -214,8 +214,8 @@ const Login  = (props)=>{
       if (isLoading) {
         return <div className={formdesign.loading}>
           <Oval
-          width="50"
-          height="50"
+          width="100"
+          height="100"
           color="black"
           ariaLabel='loading'
           />

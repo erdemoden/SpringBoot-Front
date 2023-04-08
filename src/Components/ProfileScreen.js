@@ -21,6 +21,7 @@ const ProfileScreen = (props)=>{
         }
         else{
           navigate(response.route);
+          props.setPhoto(response.location);
         }
         console.log(props.userpicpath);
          }

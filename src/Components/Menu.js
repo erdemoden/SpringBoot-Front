@@ -29,9 +29,10 @@ const Menu = (props)=>{
           else{
             props.setUserName(response.username);
             props.setUserPicPath(response.location);
+            props.setFollowedBlogs(response.followedblogs);
             document.body.className = Menustyle.deneme;
             //document.getElementById("background").className = Menustyle.backwithoutscroll;
-            console.log(response.route);
+            console.log(props.followedblogs[0]);
             navigate(response.route);
           }
            }
@@ -55,14 +56,16 @@ const mapStateToProps = (state)=>{
   return{
     username:state.username,
     jwtsession:state.jwtsession,
-    userpicpath:state.userpicpath
+    userpicpath:state.userpicpath,
+    followedblogs:state.followedblogs
   }
 }
 const mapDispatchToProps = (dispatch) =>{
   return{
     setUserName: (username) =>{ dispatch({'type':'SET_NAME',username})},
     setJwtSession: (jwtsession) =>{ dispatch({'type':'SET_JWTSESSION',jwtsession})},
-    setUserPicPath:(userpicpath) =>{ dispatch({'type':'SET_USERPIC',userpicpath})}
+    setUserPicPath:(userpicpath) =>{ dispatch({'type':'SET_USERPIC',userpicpath})},
+    setFollowedBlogs:(followedblogs) =>{ dispatch({'type':'SET_FOLLOWEDBLOGS',followedblogs})}
   }
 }
 
