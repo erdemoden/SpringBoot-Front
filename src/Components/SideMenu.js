@@ -15,6 +15,11 @@ const SideMenu = (props)=>{
         hidden: { opacity: 0, x: +200 },
         visible: { opacity: 1, x: 0 },
       };
+      const navigateToBlog = (followedblogs)=>{
+          navigate("/blog",{state:{
+            follows:followedblogs
+          }});
+      }
     return(
     <motion.div className = {Menustyle.sidemenu} initial = {{transform:"translate(170%)"}}animate={{transform: props.side ?"translate(20px)":"translate(170%)" }}>
         <motion.div style ={{backgroundImage:`url(${props.userpicpath}`}} className={`${Menustyle.userphoto} ${Menustyle.flexitems}`}whileHover={{scale:1.1}} whileTap={{scale:0.9}} onClick={()=>{document.body.style.overflow = ""; navigate("/profile")}}></motion.div>
@@ -31,8 +36,13 @@ const SideMenu = (props)=>{
             animate="visible"
             variants={animationVariants}
             transition={{ duration: 0.5 }}
+            style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}
           >
-             <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder'}} onClick={()=>{navigate("/create-blog")}}>DENEME</motion.button>
+            {( ()=>{
+              const buttons = [];
+              for(let i = 0;i<props.followedblogs.length;i++){
+              buttons.push(<motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'block'}}id={props.followedblogs[i].id} onClick={()=>{navigateToBlog(props.followedblogs[i])}}>{props.followedblogs[i].title}</motion.button>);}
+            return buttons;})()}
           </motion.div>
         )}
         </AnimatePresence>
@@ -48,7 +58,8 @@ const mapDispatchToProps = dispatch=>{
 const mapStateToProps = state=>{
     return{
         username:state.username,
-        userpicpath:state.userpicpath
+        userpicpath:state.userpicpath,
+        followedblogs:state.followedblogs
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(SideMenu);

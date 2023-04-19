@@ -36,7 +36,7 @@ const CreateBlog = (props)=>{
     <Nav/>
     <div>
         <h2 className={style.titles}>TITLE (Must Be Unique)</h2>
-        <input type="text" placeholder="Title Max 30 Characters" className={style.titles} id="title"/>
+        <input type="text" placeholder="Title Max 15 Characters" className={style.titles} id="title"/>
         <h2 className={style.titles}>SUBJECT</h2>
         <textarea className={style.textarea} placeholder="Please Explain Your Blog...   Max 350 Characters!" id="subject"/>
         <button className="btn btn-success" style={{display:"block",margin:"0 auto",marginTop:30}} onClick={Create}>CREATE</button>

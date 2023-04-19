@@ -24,3 +24,13 @@ export const GetBlogsByUserId = async (url,jwtsession)=>{
         }
     });
 }
+
+export const checkOwner = async (url,jwtsession,username,title)=>{
+    let request = await fetch(url+"username="+username+"&title="+title,{
+        method:"GET",
+        headers:{
+            "Authorization":jwtsession
+        }
+    });
+    return await request.json();
+}
