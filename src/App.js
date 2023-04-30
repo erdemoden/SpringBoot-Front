@@ -8,6 +8,7 @@ import ProfileScreen from './Components/ProfileScreen';
 import Create_Post from './Components/Create-Post';
 import CreateBlog from './Components/Create-Blog';
 import Blog from './Components/Blog';
+import Post from './Components/Post';
 class App extends React.Component {
  render(){
   return (
@@ -19,6 +20,7 @@ class App extends React.Component {
     <Route path='/create-post' element={<Create_Post/>}/>
     <Route path='/create-blog' element={<CreateBlog/>}/>
     <Route path='/blog' element={<Blog/>}></Route>
+    <Route path='/Post' element={<Post/>}></Route>
     </Routes>
     </BrowserRouter>
   );

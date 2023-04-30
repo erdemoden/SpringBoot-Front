@@ -22,6 +22,9 @@ const ProfileScreen = (props)=>{
         else{
           navigate(response.route);
           props.setPhoto(response.location);
+          props.setUserName(response.username);
+          props.setUserPicPath(response.location);
+          props.setFollowedBlogs(response.followedblogs);
         }
         console.log(props.userpicpath);
          }
@@ -58,6 +61,9 @@ const ProfileScreen = (props)=>{
         }
       });
     }
+    const getPosts = ()=>{
+      
+    }
     return(
         <React.Fragment>
         <Nav username={props.username}/>
@@ -65,10 +71,9 @@ const ProfileScreen = (props)=>{
         <input id='choose' type='file' style={{display:'none'}}/>
         <div className={Design.flexs}>
         <div className={Design.flex}>
-        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}}>Posts</motion.button>
+        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}} onClick={()=>{getPosts()}}>Posts</motion.button>
         <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}}>Likes</motion.button>
         <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}}>Comments</motion.button>
-        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}}>Change Image</motion.button>
         <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}}>30 Minute Block</motion.button>
         </div>
         </div>

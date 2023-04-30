@@ -3,7 +3,7 @@ import formdesign from'../Styles/FormDesign.module.css'
 import Bounce from 'react-reveal/Bounce';
 import cookies from 'js-cookie'
 import Menustyle from'../Styles/Menu.module.css'
-import {useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import { useState ,useEffect } from 'react';
 import swal from 'sweetalert';
 import Swal from 'sweetalert2'
@@ -13,6 +13,7 @@ import {GetWithAuth ,GetWithRefresh,beforeRegister,registerWithMail, beforeLogin
 let number = 1;
 const Login  = (props)=>{
   const navigate = useNavigate();
+  const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
   const [allState,setAllState] = useState({
     title:props.title,
@@ -21,6 +22,7 @@ const Login  = (props)=>{
     show:true
   });
    const beforeLoad = async ()=>{ 
+    try{
     console.log(process.env.REACT_APP_ROOT_URL);
     let response = await GetWithAuth(`${process.env.REACT_APP_ROOT_URL}/auth/route`,"/homepage",props.jwtsession);
     if(response.route == "/"){
@@ -34,6 +36,10 @@ const Login  = (props)=>{
     setIsLoading(false);
     navigate(response.route);
      }
+     catch{
+      window.location.reload();
+     }
+    }
       const handleClick = ()=>{
           if(allState.show === false && number === 1){
               setAllState({show:true,message:"Have Account ?",title:"Sign-Up"});

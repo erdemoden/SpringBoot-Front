@@ -1,0 +1,123 @@
+
+.all{
+  display: flex;
+  align-items: center;
+}
+.postBackground{
+    display: flex;
+    margin: 0 auto;
+    margin-top: 200px;
+    background-color: gray;
+    padding-top: 50px;
+    padding-bottom: 100px;
+    width: 70%;
+    height: auto;
+   border-top-left-radius: 100px;
+    border-bottom-right-radius: 100px;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+.userphoto{
+  background-color: red;
+  width: 60px;
+  height: 60px;
+  background-size:100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border-radius: 50%;
+  margin-right: 10px;
+  }
+.like{
+  display: flex;
+  width: 50px;
+  height: 50px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url('../Images/nolike.png');
+  flex-direction: row;
+}
+.likecomment{
+  margin-top: 100px;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content:center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.likeandcount{
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+.name{
+  color: white;
+  align-self: center;
+}
+.count{
+  color: white;
+  font-weight: bolder;
+  align-self: flex-end;
+  margin-left: 5px;
+}
+.comment{
+  display: flex;
+  width: 50px;
+  height: 50px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url('../Images/comment.png');
+  flex-direction: row;
+}
+.commentstring{
+  color: white;
+  font-weight: bolder;
+  margin-left: 50px;
+  align-self: flex-end;
+}
+.commentandstring{
+  display: flex;
+  flex-direction: column;
+  align-self: flex-end;
+  align-items: center;
+  margin-left: 10px;
+}
+.photoName{
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-self:center;
+  flex-wrap: nowrap;
+  overflow: auto;
+  margin-left: 50px;
+}
+@media screen and (max-width: 670px) {
+  .commentstring{
+    font-size: xx-small;
+    margin-left: 30px;
+  }
+  .count{
+    font-size: xx-small;
+  }
+  .comment{
+    width: 30px;
+    height: 30px;
+  }
+  .like{
+    width: 30px;
+    height: 30px;
+  }
+  .postBackground{
+    width: 90%;
+  }
+  .userphoto{
+  width: 40px;
+  height: 40px;
+  }
+  .name{
+    font-size: medium;
+  }
+}
