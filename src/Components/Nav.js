@@ -5,7 +5,13 @@ import { Bounce,Fade, Flip, Reveal, Roll, Rotate, Slide, Zoom} from 'react-revea
 import Menustyle from'../Styles/Menu.module.css'
 import SideMenu from './SideMenu';
 import { connect } from 'react-redux';
+import Autosuggest from 'react-autosuggest';
+import { userBlogLike } from '../Services/BlogService';
+import { useNavigate } from 'react-router-dom';
 const Nav = (props)=>{
+  const navigate = useNavigate();
+const [search,setSearch] =useState("");
+const [suggestions,setSuggestions] = useState([]);
 const [myslide,setmyslide] = useState(
         {
           isanimated:false
@@ -48,6 +54,10 @@ else if(scrollY.current > 30 && scrollY.current > scrollY.prev){
     setHidden(true);
 }
 }
+const getFolllowsByTitle = (title)=>{
+  console.log( props.followedblogs.filter((obj)=>obj.title == title));
+  return props.followedblogs.filter((obj)=>obj.title == title);
+}
 const rotateAndOpen = ()=>{
     if(myslide.isanimated == false){
     setmyslide({isanimated:true});
@@ -71,6 +81,58 @@ return(
         <motion.div className={Menustyle.hamburger}onClick={rotateAndOpen} id = "hamburgerim" animate={{transform:myslide.isanimated ? "rotate(90deg)":"rotate(0deg)"}}>
         </motion.div>
         </nav>
+        <div style={{ position: "fixed", top: "68px", right: "30px", zIndex: 1,display: "flex",justifyContent: "center",left: "50%",transform: "translateX(-50%)"}}>
+        <Autosuggest inputProps={{
+          placeholder:"Search",
+          autoComplete:"abcd",
+          name:"search",
+          id:"search",
+          value:search,
+          onChange:(_event,{newValue})=>{
+            setSearch(newValue);
+          },
+          className: Menustyle.searchInput
+        }}
+        suggestions={suggestions}
+        onSuggestionsFetchRequested={async({value})=>{
+          if(!value){
+            setSuggestions([]);
+            return;
+          }
+          try{
+         let request = await userBlogLike(`${process.env.REACT_APP_ROOT_URL}/blogs/userbloglike?`,props.jwtsession,value);
+         setSuggestions(request.map(row=>({
+          name:row.name,
+          type:row.type
+         })));
+          }
+          catch{
+            setSuggestions([]);
+          }
+        }}
+        onSuggestionsClearRequested={()=>{
+          setSuggestions([]);
+        }}
+        getSuggestionValue={suggestion => suggestion.name}
+        renderSuggestion={suggestion=><div>{suggestion.name}</div>}
+        renderSuggestionsContainer={({ containerProps, children }) => (
+          <div {...containerProps} className={Menustyle.suggestionsContainer}>
+            {children}
+          </div>
+        )}
+        onSuggestionSelected={(event,{suggestion,method})=>{
+          if(suggestion.name.slice(-2)=="/B"){
+            let title = suggestion.name.slice(0, -2);
+            navigate("/blog",{state:{
+              follows:getFolllowsByTitle(title)[0]
+            }});
+          }
+        }}
+        theme={{
+          suggestion: Menustyle.suggestionItem
+        }}
+        />
+        </div>
         <SideMenu side={myslide.isanimated}/>
         </React.Fragment>
 );
@@ -81,7 +143,9 @@ const mapDispatchToProps = dispatch=>{
 }
 const mapStateToProps = (state)=>{
   return{
-    username:state.username
+    username:state.username,
+    jwtsession:state.jwtsession,
+    followedblogs:state.followedblogs
   }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(Nav);

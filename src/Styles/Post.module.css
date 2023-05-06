@@ -1,13 +1,15 @@
 
 .all{
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: center !important;
+  justify-content: center !important;
 }
 .postBackground{
     display: flex;
     margin: 0 auto;
     margin-top: 200px;
-    background-color: gray;
+    background-color: #9BA4B5;
     padding-top: 50px;
     padding-bottom: 100px;
     width: 70%;
@@ -18,6 +20,16 @@
     flex-direction: column;
     flex-wrap: nowrap;
 }
+.commentBackground{
+  display: flex;
+  margin: 0 auto;
+  margin-top: 20px;
+  width: 100%;
+  height: auto;
+  align-items:flex-start;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
 .userphoto{
   background-color: red;
   width: 60px;
@@ -27,6 +39,36 @@
   background-position: center center;
   border-radius: 50%;
   margin-right: 10px;
+  }
+  .userphotocom{
+    background-color: red;
+  width: 40px;
+  height: 40px;
+  background-size:100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border-radius: 50%;
+  margin-left: 40px;
+  margin-right: 10px;
+  }
+  .writecomment{
+    align-self: center;
+    resize: none;
+    margin-top: 5px;
+  }
+  .commentp{
+    color: black;
+    font-size:large;
+    font-weight: bolder;
+    align-self: center;
+    margin-top: 15px;
+  }
+  .textareadis{
+    align-self: center;
+  }
+  .textareadis>textarea{
+    resize: none;
+    width: 400px;
   }
 .like{
   display: flex;
@@ -39,7 +81,7 @@
   flex-direction: row;
 }
 .likecomment{
-  margin-top: 100px;
+  margin-top: 20px;
   display: flex;
   width: 100%;
   flex-direction: row;
@@ -53,11 +95,16 @@
   align-items: center;
 }
 .name{
-  color: white;
+  color: #F1F6F9;
+  align-self: center;
+}
+.namecom{
+  color: #F1F6F9;
+  font-size:medium;
   align-self: center;
 }
 .count{
-  color: white;
+  color: #F1F6F9;
   font-weight: bolder;
   align-self: flex-end;
   margin-left: 5px;
@@ -73,7 +120,7 @@
   flex-direction: row;
 }
 .commentstring{
-  color: white;
+  color: #F1F6F9;
   font-weight: bolder;
   margin-left: 50px;
   align-self: flex-end;
@@ -83,7 +130,7 @@
   flex-direction: column;
   align-self: flex-end;
   align-items: center;
-  margin-left: 10px;
+  margin-left: 40px;
 }
 .photoName{
   display: flex;
@@ -93,6 +140,35 @@
   flex-wrap: nowrap;
   overflow: auto;
   margin-left: 50px;
+}
+.photonamecom{
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-self:center;
+  flex-wrap: nowrap;
+  overflow: auto;
+  margin-left: 50px;
+}
+.showcomment{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /*justify-content: center;*/
+  height: 200px;
+  margin-top: 20px;
+  z-index: -2;
+  background-color: #394867;
+  border-top-left-radius: 100px;
+  border-bottom-right-radius: 100px;
+  width: 50%;
+}
+.covercomment{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: -2 !important;
 }
 @media screen and (max-width: 670px) {
   .commentstring{
@@ -113,11 +189,60 @@
   .postBackground{
     width: 90%;
   }
+  .showcomment{
+    width: 90% !important;
+  }
+  .textareadis>textarea{
+    resize: none;
+    width: 300px;
+  }
   .userphoto{
   width: 40px;
   height: 40px;
   }
+  .userphotocom{
+    background-color: red;
+  width: 30px;
+  height: 30px;
+  background-size:100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border-radius: 50%;
+  margin-left: 40px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  }
   .name{
     font-size: medium;
+  }
+}
+@media  screen and (max-width:760px){
+  .writecomment{
+    width: 400px;
+  }
+}
+@media screen and (max-width:484px){
+  .writecomment{
+    width: 300px;
+  }
+  .textareadis>textarea{
+    resize: none;
+    width: 200px;
+  }
+}
+@media screen and (max-width:385px) {
+  .textareadis>textarea{
+    resize: none;
+    width: 150px;
+  }
+}
+@media screen and (max-width:360px){
+  .writecomment{
+    width: 200px;
+  }
+}
+@media screen and (max-width:945px){
+  .showcomment{
+    width: 90% !important;
   }
 }

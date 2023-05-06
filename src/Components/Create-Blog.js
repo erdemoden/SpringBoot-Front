@@ -1,10 +1,12 @@
 import React from "react";
 import { CreateNewBlog } from "../Services/BlogService";
+import { useNavigate } from "react-router-dom";
 import { connect } from 'react-redux';
 import style from "../Styles/CreateBlog.module.css";
 import swal from "sweetalert";
 import Nav from './Nav';
 const CreateBlog = (props)=>{
+  const navigate = useNavigate();
     const Create = async ()=>{
         let title = document.getElementById("title").value.trim();
         let subject = document.getElementById("subject").value.trim();
@@ -25,9 +27,16 @@ const CreateBlog = (props)=>{
             button: "Close This Alert",
           });
         }
+        else if(response.route){
+          navigate(response.route);
+        }
         else{
-            alert("title : "+response.title);
-            console.log(response);
+          swal({
+            title: "Success",
+            text: response.title +" Oluşturuldu",
+            icon: "error",
+            button: "Close This Alert",
+          });
         }
     }
 

@@ -34,3 +34,13 @@ export const checkOwner = async (url,jwtsession,username,title)=>{
     });
     return await request.json();
 }
+
+export const userBlogLike = async(url,jwtsession,name)=>{
+    let request = await fetch(url+"name="+name,{
+        method:"GET",
+        headers:{
+            "Authorization":jwtsession
+        }
+    });
+    return await request.json();
+}

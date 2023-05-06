@@ -68,7 +68,7 @@ const Blog = (props)=>{
     useEffect(() =>{
         beforeLoad();
       },[]);
-      if (!isLoading) {
+      /*if (!isLoading) {
         return (
           <React.Fragment>  
             <Nav/>
@@ -82,12 +82,24 @@ const Blog = (props)=>{
         </div>
         </React.Fragment>
         )
-      }
+      }*/
     return(
         <React.Fragment>
         <Nav/>
+        { !isLoading && (
+              <React.Fragment>  
+          <div className={formdesign.loading}>
+            <Oval
+            width="100"
+            height="100"
+            color="black"
+            ariaLabel='loading'
+            />
+          </div>
+          </React.Fragment>
+        )}
         <div>
-        <Bounce left when={isAdmin == true||isFollower == true||isOwner == true||isNone == true}>
+        <Bounce left when={isLoading == true}>
         <div className={style.nav}>
             <div className={style.title}>
                 <p className={style.titlecontent}>{`Blog:${location.state.follows.title}`}</p>
@@ -119,7 +131,7 @@ const Blog = (props)=>{
             </div>
         </div>
         </Bounce>
-            <Bounce top duration={500} delay={0} when={bounce}>
+            <Bounce left opposite when={bounce}>
             <div className={style.subjectinside}>
                 <p className={style.subjectwriting}>{`${location.state.follows.subject}`}</p>
             </div>
