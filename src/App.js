@@ -9,6 +9,7 @@ import Create_Post from './Components/Create-Post';
 import CreateBlog from './Components/Create-Blog';
 import Blog from './Components/Blog';
 import Post from './Components/Post';
+import User from './Components/User';
 class App extends React.Component {
  render(){
   return (
@@ -21,6 +22,7 @@ class App extends React.Component {
     <Route path='/create-blog' element={<CreateBlog/>}/>
     <Route path='/blog' element={<Blog/>}></Route>
     <Route path='/Post' element={<Post/>}></Route>
+    <Route path='/user' element={<User/>}></Route>
     </Routes>
     </BrowserRouter>
   );

@@ -127,6 +127,11 @@ return(
               follows:getFolllowsByTitle(title)[0]
             }});
           }
+          else{
+            navigate("/user",{state:{
+              username:suggestion.name
+            }})
+          }
         }}
         theme={{
           suggestion: Menustyle.suggestionItem
