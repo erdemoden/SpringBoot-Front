@@ -21,7 +21,6 @@ const ProfileScreen = (props)=>{
         }
         else{
           navigate(response.route);
-          props.setPhoto(response.location);
           props.setUserName(response.username);
           props.setUserPicPath(response.location);
           props.setFollowedBlogs(response.followedblogs);
@@ -55,7 +54,7 @@ const ProfileScreen = (props)=>{
           });
         }
         else{
-            props.setPhoto(response.picPath);
+            props.setUserPicPath(response.picPath);
             console.log(response.picPath);
             setImageUrl(response.picPath);
         }
@@ -73,7 +72,6 @@ const ProfileScreen = (props)=>{
         <div className={Design.flex}>
         <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}} onClick={()=>{getPosts()}}>Posts</motion.button>
         <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}}>Likes</motion.button>
-        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}}>Comments</motion.button>
         <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}}>30 Minute Block</motion.button>
         </div>
         </div>
@@ -88,8 +86,9 @@ const mapStateToProps = (state)=>{
 }
 const mapDispatchToProps = (dispatch) =>{
   return{
-    setPhoto: (userpicpath) =>{dispatch({'type':'SET_USERPIC',userpicpath})},
-    setJwtSession: (jwtsession) => (dispatch({'type':'SET_JWTSESSION',jwtsession}))
+    setJwtSession: (jwtsession) => (dispatch({'type':'SET_JWTSESSION',jwtsession})),
+    setUserPicPath:(userpicpath) =>{ dispatch({'type':'SET_USERPIC',userpicpath})},
+    setFollowedBlogs:(followedblogs) =>{ dispatch({'type':'SET_FOLLOWEDBLOGS',followedblogs})}
   }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(ProfileScreen);

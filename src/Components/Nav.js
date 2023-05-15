@@ -6,7 +6,7 @@ import Menustyle from'../Styles/Menu.module.css'
 import SideMenu from './SideMenu';
 import { connect } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
-import { userBlogLike } from '../Services/BlogService';
+import { findByTitle, userBlogLike } from '../Services/BlogService';
 import { useNavigate } from 'react-router-dom';
 const Nav = (props)=>{
   const navigate = useNavigate();
@@ -54,9 +54,9 @@ else if(scrollY.current > 30 && scrollY.current > scrollY.prev){
     setHidden(true);
 }
 }
-const getFolllowsByTitle = (title)=>{
-  console.log( props.followedblogs.filter((obj)=>obj.title == title));
-  return props.followedblogs.filter((obj)=>obj.title == title);
+const getFolllowsByTitle = async (title)=>{
+  let response = await findByTitle(`${process.env.REACT_APP_ROOT_URL}/blogs/findbytitle?`,props.jwtsession,title);
+  return response;
 }
 const rotateAndOpen = ()=>{
     if(myslide.isanimated == false){
@@ -120,11 +120,11 @@ return(
             {children}
           </div>
         )}
-        onSuggestionSelected={(event,{suggestion,method})=>{
+        onSuggestionSelected={async (event,{suggestion,method})=>{
           if(suggestion.name.slice(-2)=="/B"){
             let title = suggestion.name.slice(0, -2);
             navigate("/blog",{state:{
-              follows:getFolllowsByTitle(title)[0]
+              follows: await getFolllowsByTitle(title)
             }});
           }
           else{

@@ -44,3 +44,13 @@ export const userBlogLike = async(url,jwtsession,name)=>{
     });
     return await request.json();
 }
+
+export const findByTitle = async(url,jwtsession,title)=>{
+    let request = await fetch(url+"title="+title,{
+        method:"GET",
+        headers:{
+            "Authorization":jwtsession
+        }
+    }); 
+    return await request.json();
+}

@@ -188,6 +188,22 @@ border-radius: 50%;
     outline: none;
     box-shadow: none;
   }
+  @media screen and (max-width:768px) {
+    .searchInput{
+        width: 300px;
+    }
+  }
+  @media screen and (max-width:680px){
+    .searchInput{
+        width: 200px;
+    }
+  }
+  @media screen and (max-width:470px){
+    .searchInput{
+        width: 120px;
+        margin-left: 60px;
+    }
+  }
 @media screen and (max-width:580px){
     .logo{
         width: 50px;

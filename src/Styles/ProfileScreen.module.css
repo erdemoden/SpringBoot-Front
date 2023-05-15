@@ -16,14 +16,9 @@
     width: 70%;
     overflow-x: auto;
     overflow-y: hidden;
+    justify-content: center;
 }
 .flexs{
     display: flex;
     justify-content: center;
-}
-
-@media screen and (min-width:620px){
-    .flex{
-        justify-content: center;
-    }
 }

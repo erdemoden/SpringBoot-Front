@@ -38,10 +38,8 @@ const User = (props)=>{
         else{
           //navigate(response.route);
           console.log(response2);
-          props.setPhoto(response.location);
           props.setUserName(response.username);
           props.setUserPicPath(response.location);
-          props.setFollowedBlogs(response.followedblogs);
           setUrl(response2.picPath);
           setLoading(false);
         }
@@ -49,12 +47,13 @@ const User = (props)=>{
         console.log(props.userpicpath);
          }
          useEffect(() =>{
+            setLoading(true);
             beforeLoad();
-          },[]);
+          },[location.state.username]);
      if(loading){
         return (
             <React.Fragment>
-            <Nav/>
+            <Nav username={props.username}/>
             <div className={formdesign.loading}>
               <Oval
               width="100"
@@ -68,8 +67,8 @@ const User = (props)=>{
      }     
     return(
         <React.Fragment>
-         <Nav/>
-         <motion.div className={Design.image} id= "userphoto" whileHover={{scale:1.1}} whileTap={{scale:0.9}} style={{backgroundImage:`url(${url})`}}/>
+         <Nav username={props.username}/>
+          <motion.img src={url} className={Design.image} id= "userphoto" whileHover={{scale:1.1}} whileTap={{scale:0.9}}/>
          <h1>{location.state.username}</h1>
         </React.Fragment>
     )
@@ -87,8 +86,7 @@ const mapStateToProps = (state)=>{
         setUserName: (username) =>{ dispatch({'type':'SET_NAME',username})},
         setJwtSession: (jwtsession) =>{ dispatch({'type':'SET_JWTSESSION',jwtsession})},
         setUserPicPath:(userpicpath) =>{ dispatch({'type':'SET_USERPIC',userpicpath})},
-        setFollowedBlogs:(followedblogs) =>{ dispatch({'type':'SET_FOLLOWEDBLOGS',followedblogs})},
-        setPhoto: (userpicpath) =>{dispatch({'type':'SET_USERPIC',userpicpath})}
+        setFollowedBlogs:(followedblogs) =>{ dispatch({'type':'SET_FOLLOWEDBLOGS',followedblogs})}
     }
   }
 export default connect(mapStateToProps,mapDispatchToProps)(User);

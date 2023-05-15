@@ -9,6 +9,7 @@ import { Fade,Bounce } from "react-reveal";
 import { connect } from 'react-redux';
 import { checkOwner } from "../Services/BlogService";
 import {GetWithAuth ,GetWithRefresh,beforeRegister,registerWithMail, beforeLogin} from '../Services/HttpServices';
+import Post from "./Post";
 const Blog = (props)=>{
     const location = useLocation();
     const [bounce,setBounce] = useState(false);
@@ -36,8 +37,8 @@ const Blog = (props)=>{
         }
         else{
           props.setUserName(response.username);
-          props.setUserPicPath(response.location);
           props.setFollowedBlogs(response.followedblogs);
+          props.setUserPicPath(response.location);
           let response2 = await checkOwner(`${process.env.REACT_APP_ROOT_URL}/user/isOwner?`,props.jwtsession,props.username,location.state.follows.title);
           console.log(response.route);
           if(response2.route != undefined){
@@ -62,9 +63,10 @@ const Blog = (props)=>{
             console.log("is owner"+isOwner);
             }
           }
+
         }
         setIsLoading(true);
-    }
+      }
     useEffect(() =>{
         beforeLoad();
       },[]);
@@ -130,11 +132,18 @@ const Blog = (props)=>{
                 
             </div>
         </div>
-        </Bounce>
+        
             <Bounce left opposite when={bounce}>
             <div className={style.subjectinside}>
                 <p className={style.subjectwriting}>{`${location.state.follows.subject}`}</p>
             </div>
+            </Bounce>
+            {( ()=>{
+              const posts = [];
+              for(let i = 0;i<location.state.follows.postLikeIdList.length;i++){
+              posts.push(<Post userphoto ={location.state.follows.postLikeIdList[i].userPhoto} user = {location.state.follows.postLikeIdList[i].userName}
+              likes = {location.state.follows.postLikeIdList[i].likes} post = {location.state.follows.postLikeIdList[i].post} comments = {location.state.follows.postLikeIdList[i].comments}/>);}
+            return posts;})()}
             </Bounce>
         </div>
         </React.Fragment>

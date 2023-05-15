@@ -3,6 +3,7 @@ import Menustyle from'../Styles/Menu.module.css'
 import { connect } from 'react-redux';
 import {useNavigate,useLocation} from 'react-router-dom';
 import { useEffect, useState } from "react";
+import { findByTitle } from "../Services/BlogService";
 import { Bounce } from "react-reveal";
 const SideMenu = (props)=>{
     const navigate = useNavigate();
@@ -15,10 +16,16 @@ const SideMenu = (props)=>{
         hidden: { opacity: 0, x: +200 },
         visible: { opacity: 1, x: 0 },
       };
-      const navigateToBlog = (followedblogs)=>{
-          navigate("/blog",{state:{
-            follows:followedblogs
+      const navigateToBlog = async (followedblogs)=>{
+        let response = await getFolllowsByTitle(followedblogs);
+        console.log(response.postLikeIdList.length);
+        navigate("/blog",{state:{
+            follows:response
           }});
+      }
+      const getFolllowsByTitle = async (title)=>{
+        let response = await findByTitle(`${process.env.REACT_APP_ROOT_URL}/blogs/findbytitle?`,props.jwtsession,title);
+        return response;
       }
     return(
     <motion.div className = {Menustyle.sidemenu} initial = {{transform:"translate(170%)"}}animate={{transform: props.side ?"translate(20px)":"translate(170%)" }}>
@@ -41,7 +48,8 @@ const SideMenu = (props)=>{
             {( ()=>{
               const buttons = [];
               for(let i = 0;i<props.followedblogs.length;i++){
-              buttons.push(<motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'block'}}id={props.followedblogs[i].id} onClick={()=>{navigateToBlog(props.followedblogs[i])}}>{props.followedblogs[i].title}</motion.button>);}
+              buttons.push(<motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'block'}}id={props.followedblogs[i].id} onClick={()=>{navigateToBlog(props.followedblogs[i].title)}}>{props.followedblogs[i].title}</motion.button>);
+            }
             return buttons;})()}
           </motion.div>
         )}
