@@ -1,5 +1,18 @@
 html, Body, #root, .App {
   height: 100%;
+  overflow-y: auto;
+}
+Body::-webkit-scrollbar{
+  display: none;
+}
+html::-webkit-scrollbar{
+  display: none;
+}
+#root::-webkit-scrollbar{
+  display: none;
+}
+.App::-webkit-scrollbar{
+  display: none;
 }
 [data-reactroot] 
         {height: 100% !important; }

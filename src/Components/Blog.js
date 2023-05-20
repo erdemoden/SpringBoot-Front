@@ -8,10 +8,12 @@ import { Oval } from 'react-loader-spinner';
 import { Fade,Bounce } from "react-reveal";
 import { connect } from 'react-redux';
 import { checkOwner } from "../Services/BlogService";
+import { useReducer } from "react";
 import {GetWithAuth ,GetWithRefresh,beforeRegister,registerWithMail, beforeLogin} from '../Services/HttpServices';
 import Post from "./Post";
 const Blog = (props)=>{
     const location = useLocation();
+    const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     const [bounce,setBounce] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isOwner,setIsOwner] = useState(false);
@@ -69,22 +71,9 @@ const Blog = (props)=>{
       }
     useEffect(() =>{
         beforeLoad();
-      },[]);
-      /*if (!isLoading) {
-        return (
-          <React.Fragment>  
-            <Nav/>
-        <div className={formdesign.loading}>
-          <Oval
-          width="100"
-          height="100"
-          color="black"
-          ariaLabel='loading'
-          />
-        </div>
-        </React.Fragment>
-        )
-      }*/
+        setBounce(false);
+        setIsLoading(false);
+      },[location.key,navigate]);
     return(
         <React.Fragment>
         <Nav/>
@@ -138,12 +127,18 @@ const Blog = (props)=>{
                 <p className={style.subjectwriting}>{`${location.state.follows.subject}`}</p>
             </div>
             </Bounce>
-            {( ()=>{
-              const posts = [];
-              for(let i = 0;i<location.state.follows.postLikeIdList.length;i++){
-              posts.push(<Post userphoto ={location.state.follows.postLikeIdList[i].userPhoto} user = {location.state.follows.postLikeIdList[i].userName}
-              likes = {location.state.follows.postLikeIdList[i].likes} post = {location.state.follows.postLikeIdList[i].post} comments = {location.state.follows.postLikeIdList[i].comments}/>);}
-            return posts;})()}
+            {
+              location.state.follows.postLikeIdList.map((item,index) => (
+                <Post
+                postid = {item.id}
+                userphoto={item.userPhoto}
+                user={item.userName}
+                likes={item.likes}
+                post={item.post}
+                comments={item.comments}
+            />
+              ))
+            }
             </Bounce>
         </div>
         </React.Fragment>

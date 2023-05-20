@@ -9,6 +9,7 @@ import style from "../Styles/Post.module.css";
 import noLikeImage from '../Images/nolike.png';
 import likeImage from '../Images/like.png';
 import Comment from './Comment';
+import { createLike, deleteLike, isLikedByUser } from '../Services/LikeService';
 const Post = (props)=>{
 const quillRef = useRef(null);
 const animationVariants = {
@@ -19,7 +20,7 @@ const [body,setBody] = useState(props.post);
 const [backgroundImage, setBackgroundImage] = useState(noLikeImage);
 const [comment,setComment] = useState(false);
 const [userphoto,setUserPhoto] = useState(props.userphoto);
-useEffect(()=>{
+useEffect(async()=>{
   const disabled = document.getElementsByClassName("ql-disabled")[0];
 const editor = document.getElementsByClassName("ql-editor")[0];
   if(disabled){
@@ -28,13 +29,24 @@ const editor = document.getElementsByClassName("ql-editor")[0];
   if(editor){
     editor.style.overflowY = 'scroll';
   }
-},[]);
-const handleBackgroundImageChange = ()=>{
-  if(backgroundImage == noLikeImage){
+  const response = await isLikedByUser(`${process.env.REACT_APP_ROOT_URL}/like/isuserliked?`,props.jwtsession,props.postid);
+  if(response == true){
     setBackgroundImage(likeImage);
   }
   else{
     setBackgroundImage(noLikeImage);
+  }
+},[]);
+const handleBackgroundImageChange = async ()=>{
+  if(backgroundImage == noLikeImage){
+    setBackgroundImage(likeImage);
+    const response = await createLike(`${process.env.REACT_APP_ROOT_URL}/like/create`,props.jwtsession,props.postid);
+    props.likes+=1;
+  }
+  else{
+    setBackgroundImage(noLikeImage);
+    const response = await deleteLike(`${process.env.REACT_APP_ROOT_URL}/like/delete`,props.jwtsession,props.postid);
+    props.likes-=1;
   }
 }
 const handleComment = ()=>{

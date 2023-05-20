@@ -18,10 +18,10 @@ class App extends React.Component {
       <Route path='/' element = {<Login title = 'Login' message = "Don't have Account " button = "Click Here"/>}/>
     <Route path='/homepage' element={<Menu/>} />
     <Route path='/profile' element={<ProfileScreen/>}/>
-    <Route path='/create-post' element={<Create_Post/>}/>
+    <Route path='/create-post' element={<Create_Post key={Date.now()}/>}/>
     <Route path='/create-blog' element={<CreateBlog/>}/>
-    <Route path='/blog' element={<Blog/>}></Route>
-    <Route path='/Post' element={<Post/>}></Route>
+    <Route path='/blog' element={<Blog key={Date.now()}/>}></Route>
+    <Route path='/Post' element={<Post key={Date.now()}/>}></Route>
     <Route path='/user' element={<User/>}></Route>
     </Routes>
     </BrowserRouter>

@@ -13,6 +13,7 @@ const Create_Post = (props)=>{
 const navigate = useNavigate();
 const [body,setBody] = useState("");
 const quillRef = useRef(null);
+const quillRef2 = useRef(null);
 const handleBody = (e)=>{
     setBody(e);
     console.log(body);
@@ -55,6 +56,7 @@ return(
 </select>
 <div className='arka'>
 <ReactQuill placeholder='Write Something You Want To Write....'
+key={"quill1"}
 modules={Create_Post.modules}
 formats={Create_Post.formats}
 onChange={handleBody}
@@ -64,10 +66,11 @@ ref={quillRef}
 <button className='btn btn-success' style={{display:"block",margin:"0 auto",marginTop:"30px"}} onClick={()=>{sendPost(document.getElementById("select").value,body)}}>Send</button>
 </div>
 <ReactQuill placeholder='Write Something You Want To Write....'
+key={"quill2"}
 modules={Create_Post.module2}
 readOnly={true}
 value={body}
-ref={quillRef}
+ref={quillRef2}
 style={{ backgroundColor: 'white', color: 'black' }}
 />
 </React.Fragment>
