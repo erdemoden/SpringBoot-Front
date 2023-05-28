@@ -12,3 +12,21 @@ const response = await fetch(url,{
 });
 return await response.json();
 }
+export const GetPostsByUser = async (url,jwtsession)=>{
+    let request = await fetch(url,{
+        method:"GET",
+        headers:{
+            "Authorization":jwtsession
+        }
+    });
+    return await request.json();
+}
+export const GetLikesByUser = async(url,jwtsession)=>{
+    let request = await fetch(url,{
+        method:"GET",
+        headers:{
+            "Authorization":jwtsession
+        }
+    });
+    return await request.json();
+}

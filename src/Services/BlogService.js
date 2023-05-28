@@ -16,7 +16,7 @@ export const CreateNewBlog = async (url,title,subject,jwtsession)=>{
     return await response.json();
 }
 
-export const GetBlogsByUserId = async (url,jwtsession)=>{
+export const GetBlogsByUser = async (url,jwtsession)=>{
     let request = await fetch(url,{
         method:"GET",
         headers:{

@@ -7,10 +7,16 @@ import {GetWithAuth} from '../Services/HttpServices';
 import { uploadPhoto,getUserPhoto } from '../Services/UserPrefs';
 import { connect } from 'react-redux';
 import Nav from './Nav';
+import Post from './Post';
 import swal from 'sweetalert';
+import { GetLikesByUser, GetPostsByUser } from '../Services/PostService';
+import { Bounce } from 'react-reveal';
 const ProfileScreen = (props)=>{
     const navigate = useNavigate();
     const [imageUrl, setImageUrl] = useState(props.userpicpath);
+    const [posts,setPosts] = useState(undefined);
+    const [userpost,setUserPost] = useState(false);
+    const [userlike,setUserLike] = useState(false);
     const beforeLoad = async()=>{
         console.log(props.username);
         let response = await GetWithAuth(`${process.env.REACT_APP_ROOT_URL}/auth/route`,"/profile",props.jwtsession);
@@ -60,8 +66,47 @@ const ProfileScreen = (props)=>{
         }
       });
     }
-    const getPosts = ()=>{
-      
+    const getPosts = async ()=>{
+      let response = await GetPostsByUser(`${process.env.REACT_APP_ROOT_URL}/user/getuserposts`,props.jwtsession);
+      let postsArray = [];
+      response.forEach(item => {
+        postsArray.push(
+          <Post
+                postid = {item.id}
+                userphoto={item.userPhoto}
+                user={item.userName}
+                likes={item.likes}
+                post={item.post}
+                comments={item.comments}
+                admin = {false}
+                owner = {false}
+            />
+        )
+      });
+      setPosts(postsArray);
+      setUserPost(true);
+      setUserLike(false);
+    }
+    const getLikes = async ()=>{
+      let response = await GetLikesByUser(`${process.env.REACT_APP_ROOT_URL}/user/getlikedposts`,props.jwtsession);
+      let postsArray = [];
+      response.forEach(item =>{
+        postsArray.push(
+          <Post
+          postid = {item.id}
+          userphoto={item.userPhoto}
+          user={item.userName}
+          likes={item.likes}
+          post={item.post}
+          comments={item.comments}
+          admin = {false}
+          owner = {false}
+      />
+        )
+      });
+      setPosts(postsArray);
+      setUserLike(true);
+      setUserPost(false);
     }
     return(
         <React.Fragment>
@@ -71,9 +116,21 @@ const ProfileScreen = (props)=>{
         <div className={Design.flexs}>
         <div className={Design.flex}>
         <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}} onClick={()=>{getPosts()}}>Posts</motion.button>
-        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}}>Likes</motion.button>
+        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}} onClick={()=>{getLikes()}}>Likes</motion.button>
         <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}}>30 Minute Block</motion.button>
         </div>
+        </div>
+        <div style={{position:'relative'}}>
+        <Bounce left opposite when={userpost}>
+        <div style={{position: 'absolute',left: 0,right:0,margin: '0 auto'}}>
+        {posts}
+       </div>
+        </Bounce>
+        <Bounce left opposite when={userlike}>
+        <div style={{position: 'absolute',left: 0,right:0,margin: '0 auto'}}>
+        {posts}
+       </div>
+        </Bounce>
         </div>
         </React.Fragment>
     );
@@ -81,14 +138,16 @@ const ProfileScreen = (props)=>{
 const mapStateToProps = (state)=>{
   return{
     userpicpath:state.userpicpath,
-    jwtsession:state.jwtsession
+    jwtsession:state.jwtsession,
+    username:state.username
   }
 }
 const mapDispatchToProps = (dispatch) =>{
   return{
     setJwtSession: (jwtsession) => (dispatch({'type':'SET_JWTSESSION',jwtsession})),
     setUserPicPath:(userpicpath) =>{ dispatch({'type':'SET_USERPIC',userpicpath})},
-    setFollowedBlogs:(followedblogs) =>{ dispatch({'type':'SET_FOLLOWEDBLOGS',followedblogs})}
+    setFollowedBlogs:(followedblogs) =>{ dispatch({'type':'SET_FOLLOWEDBLOGS',followedblogs})},
+    setUserName: (username) =>{ dispatch({'type':'SET_NAME',username})}
   }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(ProfileScreen);

@@ -15,7 +15,7 @@ const Blog = (props)=>{
     const location = useLocation();
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     const [bounce,setBounce] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [isOwner,setIsOwner] = useState(false);
     const [isFollower,setIsFollower] = useState(false);
     const [isAdmin,setIsAdmin] = useState(false);
@@ -63,37 +63,40 @@ const Blog = (props)=>{
             else{
             setIsNone(true);
             console.log("is owner"+isOwner);
+            console.log(isLoading);
             }
           }
-
+          setIsLoading(false);
         }
-        setIsLoading(true);
       }
     useEffect(() =>{
         beforeLoad();
         setBounce(false);
-        setIsLoading(false);
       },[location.key,navigate]);
+      if (isLoading) {
+        return (
+          <React.Fragment>
+          <Nav/>
+        <div className={formdesign.loading}>
+          <Oval
+          width="100"
+          height="100"
+          color="black"
+          ariaLabel='loading'
+          />
+        </div>
+        <h1>If Page Is Not Loading Something Went Wrong Please Try Again</h1>
+        </React.Fragment>
+        )
+      }
     return(
         <React.Fragment>
         <Nav/>
-        { !isLoading && (
-              <React.Fragment>  
-          <div className={formdesign.loading}>
-            <Oval
-            width="100"
-            height="100"
-            color="black"
-            ariaLabel='loading'
-            />
-          </div>
-          </React.Fragment>
-        )}
         <div>
-        <Bounce left when={isLoading == true}>
+        <Bounce left>
         <div className={style.nav}>
             <div className={style.title}>
-                <p className={style.titlecontent}>{`Blog:${location.state.follows.title}`}</p>
+                <p className={style.titlecontent}>{`Blog:${location?.state?.follows?.title}`}</p>
                  {isOwner && (
                     <div className={style.buttons}>
                          <button className={`btn btn-sm btn-outline-dark ${style.follow}`}>Delete</button>                 
@@ -124,11 +127,11 @@ const Blog = (props)=>{
         
             <Bounce left opposite when={bounce}>
             <div className={style.subjectinside}>
-                <p className={style.subjectwriting}>{`${location.state.follows.subject}`}</p>
+                <p className={style.subjectwriting}>{`${location?.state?.follows?.subject}`}</p>
             </div>
             </Bounce>
             {
-              location.state.follows.postLikeIdList.map((item,index) => (
+              location?.state?.follows?.postLikeIdList.map((item,index) => (
                 <Post
                 postid = {item.id}
                 userphoto={item.userPhoto}
@@ -136,6 +139,8 @@ const Blog = (props)=>{
                 likes={item.likes}
                 post={item.post}
                 comments={item.comments}
+                admin = {isAdmin? true:false}
+                owner = {isOwner? true:false}
             />
               ))
             }

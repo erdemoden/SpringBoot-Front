@@ -1,5 +1,4 @@
 
-
 export const getLikes = async(url,jwtsession,param)=>{
 
     let response = await fetch(url+"posts="+param,{
@@ -11,14 +10,15 @@ export const getLikes = async(url,jwtsession,param)=>{
     return await response.json();
 }
 
-export const createLike = async(url,jwtsession,post)=>{
+export const createLike = async(url,jwtsession,postid)=>{
     let response = await fetch(url,{
         method:"POST",
+        body:JSON.stringify({
+            postid:postid
+        }),
         headers:{
-            "Authorization":jwtsession
-        },
-        body:{
-            postid:post
+            "Authorization":jwtsession,
+            "Content-Type":"application/json"
         }
     });
     return await response.json();
