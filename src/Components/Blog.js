@@ -10,6 +10,8 @@ import { connect } from 'react-redux';
 import { checkOwner } from "../Services/BlogService";
 import { useReducer } from "react";
 import {GetWithAuth ,GetWithRefresh,beforeRegister,registerWithMail, beforeLogin} from '../Services/HttpServices';
+import { DeletePostById } from "../Services/PostService";
+import swal from 'sweetalert';
 import Post from "./Post";
 const Blog = (props)=>{
     const location = useLocation();
@@ -20,6 +22,7 @@ const Blog = (props)=>{
     const [isFollower,setIsFollower] = useState(false);
     const [isAdmin,setIsAdmin] = useState(false);
     const [isNone,setIsNone] = useState(false);
+    const [posts,setPosts] = useState(location?.state?.follows?.postLikeIdList);
     const navigate = useNavigate();
     const subjectClicked = ()=>{
         if(bounce == false){
@@ -72,7 +75,33 @@ const Blog = (props)=>{
     useEffect(() =>{
         beforeLoad();
         setBounce(false);
-      },[location.key,navigate]);
+        setPosts(location?.state?.follows?.postLikeIdList);
+      },[location.key]);
+
+    const deletePost = async (postId)=>{
+      let response = await DeletePostById(`${process.env.REACT_APP_ROOT_URL}/post/delete`,postId,props.jwtsession);
+      if(response.route!=undefined){
+        props.setJwtSession("");
+        navigate(response.route);
+      }
+    else if(response.error){
+      swal({
+        title:"Error",
+        text:response.error,
+        icon:"error",
+        button:"Close This Alert"
+      });
+    }
+    else if(response.success){
+      swal({
+        title:"Success",
+        text:response.success,
+        icon:"success",
+        button:"Close This Alert"
+      });
+      setPosts(posts.filter(post => post.id !== postId));
+    }
+    }
       if (isLoading) {
         return (
           <React.Fragment>
@@ -93,7 +122,7 @@ const Blog = (props)=>{
         <React.Fragment>
         <Nav/>
         <div>
-        <Bounce left>
+        <Bounce key={location.key} left>
         <div className={style.nav}>
             <div className={style.title}>
                 <p className={style.titlecontent}>{`Blog:${location?.state?.follows?.title}`}</p>
@@ -131,7 +160,7 @@ const Blog = (props)=>{
             </div>
             </Bounce>
             {
-              location?.state?.follows?.postLikeIdList.map((item,index) => (
+              posts.map((item,index) => (
                 <Post
                 postid = {item.id}
                 userphoto={item.userPhoto}
@@ -141,6 +170,7 @@ const Blog = (props)=>{
                 comments={item.comments}
                 admin = {isAdmin? true:false}
                 owner = {isOwner? true:false}
+                deletePost = {deletePost}
             />
               ))
             }

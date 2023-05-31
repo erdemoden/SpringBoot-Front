@@ -30,3 +30,13 @@ export const GetLikesByUser = async(url,jwtsession)=>{
     });
     return await request.json();
 }
+
+export const DeletePostById = async(url,postid,jwtsession)=>{
+    let request = await fetch(url+"/"+postid,{
+        method:"GET",
+        headers:{
+            "Authorization":jwtsession
+        }
+    });
+    return await request.json();
+}

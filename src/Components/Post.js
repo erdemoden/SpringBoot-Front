@@ -12,6 +12,8 @@ import Comment from './Comment';
 import { createLike, deleteLike, isLikedByUser } from '../Services/LikeService';
 import { createComment } from '../Services/CommentService';
 import swal from 'sweetalert';
+import { DeletePostById } from '../Services/PostService';
+import { useNavigate } from 'react-router-dom';
 const Post = (props)=>{
 const quillRef = useRef(null);
 const animationVariants = {
@@ -24,6 +26,7 @@ const [body,setBody] = useState(props.post);
 const [backgroundImage, setBackgroundImage] = useState(noLikeImage);
 const [comment,setComment] = useState(false);
 const [userphoto,setUserPhoto] = useState(props.userphoto);
+const navigate = useNavigate();
 useEffect(async()=>{
   const disabled = document.getElementsByClassName("ql-disabled")[0];
 const editor = document.getElementsByClassName("ql-editor")[0];
@@ -99,7 +102,7 @@ return(
         <h1 className={style.name}>{props.user}</h1>
         {(props.user == props.username || props.admin || props.owner)&& (
           <div style={{marginLeft:'auto',marginRight:'40px'}}>
-        <button className='btn-sm btn-danger'>Delete Post</button>
+        <button className='btn-sm btn-danger' onClick={()=>{props.deletePost(props.postid)}}>Delete Post</button>
         </div>
         )}
         </div>
