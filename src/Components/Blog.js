@@ -7,7 +7,7 @@ import {useNavigate} from 'react-router-dom';
 import { Oval } from 'react-loader-spinner';
 import { Fade,Bounce } from "react-reveal";
 import { connect } from 'react-redux';
-import { checkOwner } from "../Services/BlogService";
+import { checkOwner, followBlog, unFollowBlog } from "../Services/BlogService";
 import { useReducer } from "react";
 import {GetWithAuth ,GetWithRefresh,beforeRegister,registerWithMail, beforeLogin} from '../Services/HttpServices';
 import { DeletePostById } from "../Services/PostService";
@@ -102,6 +102,43 @@ const Blog = (props)=>{
       setPosts(posts.filter(post => post.id !== postId));
     }
     }
+    const followABlog = async()=>{
+      let response = await followBlog(`${process.env.REACT_APP_ROOT_URL}/blogs/followblog?`,location.state.follows.id,props.jwtsession);
+      if(response.route == "/"){
+        props.setJwtSession("");
+        //localStorage.removeItem("jwtsession");
+        navigate(response.route);
+        }
+        else{
+          setIsFollower(true);
+          setIsNone(false);
+          props.setFollowedBlogs(props.followedblogs.filter(follow=>follow.title ==location?.state?.follows?.title));
+          swal({
+            title:"Success",
+            text:response.success,
+            icon:"success",
+            buttons:"Close"
+          });
+        }
+    }
+    const unFollowThisBlog = async()=>{
+      let response = unFollowBlog(`${process.env.REACT_APP_ROOT_URL}/blogs/unfollowblog?`,location.state.follows.id,props.jwtsession);
+      if(response.route == "/"){
+        props.setJwtSession("");
+        //localStorage.removeItem("jwtsession");
+        navigate(response.route);
+        }
+        else{
+          setIsNone(true);
+          setIsFollower(false);
+          swal({
+            title:"Success",
+            text:response.success,
+            icon:"success",
+            buttons:"Close"
+          });
+        }
+    }
       if (isLoading) {
         return (
           <React.Fragment>
@@ -140,13 +177,13 @@ const Blog = (props)=>{
                  )}
                     {isFollower && (
                     <div className={style.buttons}>
-                         <button className={`btn btn-sm btn-outline-dark ${style.follow}`}>Unfollow</button>                 
+                         <button className={`btn btn-sm btn-outline-dark ${style.follow}`} onClick={unFollowThisBlog}>Unfollow</button>                 
                          <button className={`btn btn-sm btn-outline-danger ${style.subject}`} onClick={subjectClicked}>Subject</button>
                          </div>
                  )}
                     {isNone && (
                     <div className={style.buttons}>
-                         <button className={`btn btn-sm btn-outline-dark ${style.follow}`}>Follow</button>                 
+                         <button className={`btn btn-sm btn-outline-dark ${style.follow}`} onClick={followABlog}>Follow</button>                 
                          <button className={`btn btn-sm btn-outline-danger ${style.subject}`} onClick={subjectClicked}>Subject</button>
                          </div>
                  )}

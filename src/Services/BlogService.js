@@ -54,3 +54,21 @@ export const findByTitle = async(url,jwtsession,title)=>{
     }); 
     return await request.json();
 }
+export const followBlog = async(url,blogid,jwtsession)=>{
+    let request = await fetch(url+"blogid="+blogid,{
+        method:"GET",
+        headers:{
+            "Authorization":jwtsession
+        }
+    });
+    return await request.json();
+}
+export const unFollowBlog = async(url,blogid,jwtsession)=>{
+    let request = await fetch(url+"blogid="+blogid,{
+        method:"GET",
+        headers:{
+            "Authorization":jwtsession
+        }
+    });
+    return await request.json();
+}

@@ -30,6 +30,7 @@ const Menu = (props)=>{
             props.setUserName(response.username);
             props.setUserPicPath(response.location);
             props.setFollowedBlogs(response.followedblogs);
+            console.log(response.followedblogs);
             document.body.className = Menustyle.deneme;
             //document.getElementById("background").className = Menustyle.backwithoutscroll;
             console.log(props.followedblogs[0]);
