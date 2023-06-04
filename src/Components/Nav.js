@@ -138,7 +138,7 @@ return(
         }}
         />
         </div>
-        <SideMenu side={myslide.isanimated}/>
+        <SideMenu side={myslide.isanimated} key={props.followedblogs.length} />
         </React.Fragment>
 );
 

@@ -72,3 +72,21 @@ export const unFollowBlog = async(url,blogid,jwtsession)=>{
     });
     return await request.json();
 }
+export const createOrDeleteAdmin = async(url,blogid,adminname,jwtsession)=>{
+    let request = await fetch(url+"blogid="+blogid+"&adminname="+adminname,{
+        method:"GET",
+        headers:{
+            "Authorization":jwtsession
+        }
+    });
+    return await request.json();
+}
+export const checkAdminAndOwner = async(url,adminname,jwtsession)=>{
+    let request = await fetch(url+"adminname="+adminname,{
+        method:"GET",
+        headers:{
+            "Authorization":jwtsession
+        }
+    });
+    return await request.json();
+}

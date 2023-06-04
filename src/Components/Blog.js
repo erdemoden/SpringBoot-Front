@@ -7,7 +7,7 @@ import {useNavigate} from 'react-router-dom';
 import { Oval } from 'react-loader-spinner';
 import { Fade,Bounce } from "react-reveal";
 import { connect } from 'react-redux';
-import { checkOwner, followBlog, unFollowBlog } from "../Services/BlogService";
+import { checkOwner, createOrDeleteAdmin, followBlog, unFollowBlog } from "../Services/BlogService";
 import { useReducer } from "react";
 import {GetWithAuth ,GetWithRefresh,beforeRegister,registerWithMail, beforeLogin} from '../Services/HttpServices';
 import { DeletePostById } from "../Services/PostService";
@@ -33,11 +33,16 @@ const Blog = (props)=>{
         }
     }
     const beforeLoad = async ()=>{
+      setIsOwner(false);
+        setIsAdmin(false);
+        setIsFollower(false);
+        setIsNone(false);
+        setIsLoading(true);
         console.log(props.username);
         let response = await GetWithAuth(`${process.env.REACT_APP_ROOT_URL}/auth/route`,"/blog",props.jwtsession);
         if(response.route == "/"){
         props.setJwtSession("");
-        //localStorage.removeItem("jwtsession");
+        localStorage.removeItem("jwtsession");
         navigate(response.route);
         }
         else{
@@ -57,17 +62,20 @@ const Blog = (props)=>{
                 setIsOwner(true);
                 console.log("is owner"+isOwner);
             }
-            else if(response2.follower == true){
-                setIsFollower(true);
-            }
             else if(response2.admin == true){
                 setIsAdmin(true);
             }
+            else if(response2.follower == true){
+              setIsFollower(true);
+              console.log("merhaba");
+          }
             else{
             setIsNone(true);
             console.log("is owner"+isOwner);
             console.log(isLoading);
             }
+            console.log(response2);
+            console.log(location.state.follows.id);
           }
           setIsLoading(false);
         }
@@ -85,6 +93,7 @@ const Blog = (props)=>{
         navigate(response.route);
       }
     else if(response.error){
+      console.log("error")
       swal({
         title:"Error",
         text:response.error,
@@ -93,6 +102,7 @@ const Blog = (props)=>{
       });
     }
     else if(response.success){
+      console.log("success");
       swal({
         title:"Success",
         text:response.success,
@@ -106,13 +116,17 @@ const Blog = (props)=>{
       let response = await followBlog(`${process.env.REACT_APP_ROOT_URL}/blogs/followblog?`,location.state.follows.id,props.jwtsession);
       if(response.route == "/"){
         props.setJwtSession("");
-        //localStorage.removeItem("jwtsession");
+        localStorage.removeItem("jwtsession");
         navigate(response.route);
         }
         else{
+          console.log(response);
           setIsFollower(true);
           setIsNone(false);
-          props.setFollowedBlogs(props.followedblogs.filter(follow=>follow.title ==location?.state?.follows?.title));
+          let newFollowedBlogs = props.followedblogs.concat(response.object);
+          props.setFollowedBlogs(newFollowedBlogs);
+          console.log("followed blogs"+props.followedBlogs);
+          console.log(response);
           swal({
             title:"Success",
             text:response.success,
@@ -122,15 +136,46 @@ const Blog = (props)=>{
         }
     }
     const unFollowThisBlog = async()=>{
-      let response = unFollowBlog(`${process.env.REACT_APP_ROOT_URL}/blogs/unfollowblog?`,location.state.follows.id,props.jwtsession);
+      let response = await unFollowBlog(`${process.env.REACT_APP_ROOT_URL}/blogs/unfollowblog?`,location.state.follows.id,props.jwtsession);
       if(response.route == "/"){
         props.setJwtSession("");
-        //localStorage.removeItem("jwtsession");
+        localStorage.removeItem("jwtsession");
         navigate(response.route);
         }
         else{
           setIsNone(true);
           setIsFollower(false);
+          props.setFollowedBlogs(props.followedblogs.filter(follow=>follow.title !=location?.state?.follows?.title));
+          console.log(response)
+          swal({
+            title:"Success",
+            text:response.success,
+            icon:"success",
+            buttons:"Close"
+          });
+        }
+    }
+    const Leave = async()=>{
+      let response = await createOrDeleteAdmin(`${process.env.REACT_APP_ROOT_URL}/blogs/removeadmin?`,location.state.follows.id,props.username,props.jwtsession);
+      if(response.route == "/"){
+        props.setJwtSession("");
+        localStorage.removeItem("jwtsession");
+        navigate(response.route);
+        }
+        else if(response.error){
+          swal({
+            title:"Error",
+            text:response.error,
+            icon:"error",
+            buttons:"Close"
+          });
+        }
+        else{
+          setIsNone(true);
+          setIsFollower(false);
+          setIsAdmin(false);
+          props.setFollowedBlogs(props.followedblogs.filter(follow=>follow.title !=location?.state?.follows?.title));
+          console.log(response)
           swal({
             title:"Success",
             text:response.success,
@@ -163,25 +208,25 @@ const Blog = (props)=>{
         <div className={style.nav}>
             <div className={style.title}>
                 <p className={style.titlecontent}>{`Blog:${location?.state?.follows?.title}`}</p>
-                 {isOwner && (
+                 {!isLoading&&isOwner && (
                     <div className={style.buttons}>
                          <button className={`btn btn-sm btn-outline-dark ${style.follow}`}>Delete</button>                 
                          <button className={`btn btn-sm btn-outline-danger ${style.subject}`} onClick={subjectClicked}>Subject</button>
                          </div>
                  )}
-                  {isAdmin && (
+                  {!isLoading&&isAdmin && (
                     <div className={style.buttons}>
-                         <button className={`btn btn-sm btn-outline-dark ${style.follow}`}>Leave</button>                 
+                         <button className={`btn btn-sm btn-outline-dark ${style.follow}`} onClick={Leave}>Leave</button>                 
                          <button className={`btn btn-sm btn-outline-danger ${style.subject}`} onClick={subjectClicked}>Subject</button>
                          </div>
                  )}
-                    {isFollower && (
+                    {!isLoading&&isFollower && (
                     <div className={style.buttons}>
                          <button className={`btn btn-sm btn-outline-dark ${style.follow}`} onClick={unFollowThisBlog}>Unfollow</button>                 
                          <button className={`btn btn-sm btn-outline-danger ${style.subject}`} onClick={subjectClicked}>Subject</button>
                          </div>
                  )}
-                    {isNone && (
+                    {!isLoading&&isNone && (
                     <div className={style.buttons}>
                          <button className={`btn btn-sm btn-outline-dark ${style.follow}`} onClick={followABlog}>Follow</button>                 
                          <button className={`btn btn-sm btn-outline-danger ${style.subject}`} onClick={subjectClicked}>Subject</button>
@@ -199,6 +244,7 @@ const Blog = (props)=>{
             {
               posts.map((item,index) => (
                 <Post
+                key={item.id}
                 postid = {item.id}
                 userphoto={item.userPhoto}
                 user={item.userName}

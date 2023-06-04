@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import Nav from './Nav';
 import Post from './Post';
 import swal from 'sweetalert';
-import { GetLikesByUser, GetPostsByUser } from '../Services/PostService';
+import { GetLikesByUser, GetPostsByUser,DeletePostById } from '../Services/PostService';
 import { Bounce } from 'react-reveal';
 const ProfileScreen = (props)=>{
     const navigate = useNavigate();
@@ -17,11 +17,12 @@ const ProfileScreen = (props)=>{
     const [posts,setPosts] = useState(undefined);
     const [userpost,setUserPost] = useState(false);
     const [userlike,setUserLike] = useState(false);
+    const [animationKey,setAnimationKey] = useState(0);
     const beforeLoad = async()=>{
         console.log(props.username);
         let response = await GetWithAuth(`${process.env.REACT_APP_ROOT_URL}/auth/route`,"/profile",props.jwtsession);
         if(response.route == "/"){
-        //localStorage.removeItem("jwtsession");
+        localStorage.removeItem("jwtsession");
         props.setJwtSession("");
         navigate(response.route);
         }
@@ -72,6 +73,7 @@ const ProfileScreen = (props)=>{
       response.forEach(item => {
         postsArray.push(
           <Post
+                key={item.id}
                 postid = {item.id}
                 userphoto={item.userPhoto}
                 user={item.userName}
@@ -80,12 +82,14 @@ const ProfileScreen = (props)=>{
                 comments={item.comments}
                 admin = {false}
                 owner = {false}
+                deletePost = {deletePost}
             />
         )
       });
       setPosts(postsArray);
       setUserPost(true);
       setUserLike(false);
+      setAnimationKey(prewKey=>prewKey+1);
     }
     const getLikes = async ()=>{
       let response = await GetLikesByUser(`${process.env.REACT_APP_ROOT_URL}/user/getlikedposts`,props.jwtsession);
@@ -93,6 +97,7 @@ const ProfileScreen = (props)=>{
       response.forEach(item =>{
         postsArray.push(
           <Post
+          key={item.id}
           postid = {item.id}
           userphoto={item.userPhoto}
           user={item.userName}
@@ -101,12 +106,40 @@ const ProfileScreen = (props)=>{
           comments={item.comments}
           admin = {false}
           owner = {false}
+          deletePost = {deletePost}
       />
         )
       });
       setPosts(postsArray);
       setUserLike(true);
       setUserPost(false);
+      setAnimationKey(prewKey=>prewKey+1);    
+    }
+    const deletePost = async (postId)=>{
+      let response = await DeletePostById(`${process.env.REACT_APP_ROOT_URL}/post/delete`,postId,props.jwtsession);
+      if(response.route!=undefined){
+        props.setJwtSession("");
+        navigate(response.route);
+      }
+    else if(response.error){
+      console.log("error")
+      swal({
+        title:"Error",
+        text:response.error,
+        icon:"error",
+        button:"Close This Alert"
+      });
+    }
+    else if(response.success){
+      console.log("success");
+      swal({
+        title:"Success",
+        text:response.success,
+        icon:"success",
+        button:"Close This Alert"
+      });
+      setPosts(posts.filter(post => post.id !== postId));
+    }
     }
     return(
         <React.Fragment>
@@ -120,18 +153,11 @@ const ProfileScreen = (props)=>{
         <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}}>30 Minute Block</motion.button>
         </div>
         </div>
-        <div style={{position:'relative'}}>
-        <Bounce left opposite when={userpost}>
-        <div style={{position: 'absolute',left: 0,right:0,margin: '0 auto'}}>
-        {posts}
-       </div>
-        </Bounce>
-        <Bounce left opposite when={userlike}>
-        <div style={{position: 'absolute',left: 0,right:0,margin: '0 auto'}}>
-        {posts}
-       </div>
-        </Bounce>
+        <Bounce left opposite when={userpost||userlike}>
+          <div key={animationKey}>
+            {posts}
         </div>
+        </Bounce>
         </React.Fragment>
     );
 }

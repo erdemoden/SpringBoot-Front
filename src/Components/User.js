@@ -9,16 +9,20 @@ import { Oval } from 'react-loader-spinner';
 import {motion} from 'framer-motion';
 import swal from 'sweetalert';
 import Nav from './Nav';
+import { checkAdminAndOwner, createOrDeleteAdmin } from '../Services/BlogService';
 const User = (props)=>{
     const [url,setUrl] = useState("");
     const [loading,setLoading] = useState(true);
     const location = useLocation();
+    const [ownerBlogs,setOwnerBlogs] = useState([]);
+    const [adminBlogs,setAdminBlogs] = useState([]);
+    const [refresh,setRefresh] = useState(false);
     const navigate = useNavigate();
     const beforeLoad = async()=>{
         console.log(props.username);
         let response = await GetWithAuth(`${process.env.REACT_APP_ROOT_URL}/auth/route`,"/user",props.jwtsession);
         if(response.route == "/"){
-        //localStorage.removeItem("jwtsession");
+        localStorage.removeItem("jwtsession");
         props.setJwtSession("");
         navigate(response.route);
         }
@@ -41,7 +45,27 @@ const User = (props)=>{
           props.setUserName(response.username);
           props.setUserPicPath(response.location);
           setUrl(response2.picPath);
-          setLoading(false);
+          let response3 = await checkAdminAndOwner(`${process.env.REACT_APP_ROOT_URL}/user/checkadminandowner?`,location.state.username,props.jwtsession);
+          if(response3.error){
+            swal({
+              title:"Error",
+              text:response3.error,
+              icon:"error",
+              button:"Close This Alert"
+            });
+          }
+          if(response3.adminBlogs){
+            setAdminBlogs(response3.adminBlogs);
+            setLoading(false);
+          }
+          if(response3.ownerBlogs){
+            setOwnerBlogs(response3.ownerBlogs)
+            setLoading(false);
+          }
+          else{
+            setLoading(false);
+          }
+          console.log(response3);
         }
         }
         console.log(props.userpicpath);
@@ -49,7 +73,52 @@ const User = (props)=>{
          useEffect(() =>{
             setLoading(true);
             beforeLoad();
-          },[location.state.username]);
+            setRefresh(false);
+          },[location.state.username,refresh]);
+
+          const makeAdmin = async(selected)=>{
+              let response = await createOrDeleteAdmin(`${process.env.REACT_APP_ROOT_URL}/blogs/createadmin?`,selected,location.state.username,props.jwtsession);
+              if(response.error){
+                swal({
+                  title:"Error",
+                  text:response.error,
+                  icon:"error",
+                  button:"Close This Alert"
+                });
+              }
+              else if(response.success){
+                swal({
+                  title:"Success",
+                  text:response.success,
+                  icon:"success",
+                  button:"Close This Alert"
+                });
+                setRefresh(true);
+              setLoading(true);
+              }
+          }
+          const removeAdmin = async(selected)=>{
+            let response = await createOrDeleteAdmin(`${process.env.REACT_APP_ROOT_URL}/blogs/removeadmin?`,selected,location.state.username,props.jwtsession);
+            if(response.error){
+              swal({
+                title:"Error",
+                text:response.error,
+                icon:"error",
+                button:"Close This Alert"
+              });
+            }
+            else if(response.success){
+              swal({
+                title:"Success",
+                text:response.success,
+                icon:"success",
+                button:"Close This Alert"
+              });
+              setAdminBlogs(prevBlogs => prevBlogs.filter(blog => blog.id != selected));
+              setRefresh(true);
+              setLoading(true);
+            }
+          }
      if(loading){
         return (
             <React.Fragment>
@@ -70,6 +139,30 @@ const User = (props)=>{
          <Nav username={props.username}/>
           <motion.img src={url} className={Design.image} id= "userphoto" whileHover={{scale:1.1}} whileTap={{scale:0.9}}/>
          <h1>{location.state.username}</h1>
+         {ownerBlogs.length>0&& props.username!=location.state.username &&(
+          <React.Fragment>
+            <select class="form-select"style={{ display:'block',width:'50%',margin:'0 auto'}} aria-label="Default select example" id='select1'>
+            { 
+              ownerBlogs.map(owner=>{
+                  return  <option value={owner.id}>{owner.title}</option>
+              })
+            }
+          </select>
+          <button className='btn btn-success' style={{display:"block",margin:"0 auto",marginTop:"10px"}} onClick={()=>{makeAdmin(document.getElementById("select1").value)}}>Make Admin</button>
+          </React.Fragment>
+         )}
+            {adminBlogs.length>0&& props.username!=location.state.username &&(
+            <React.Fragment>
+            <select class="form-select"style={{ display:'block',width:'50%',margin:'0 auto',marginTop:"10px"}} aria-label="Default select example" id='select2'>
+            { 
+              adminBlogs.map(admin=>{
+                  return  <option value={admin.id}>{admin.title}</option>
+              })
+            }
+          </select>
+          <button className='btn btn-danger' style={{display:"block",margin:"0 auto",marginTop:"10px"}} onClick={()=>{removeAdmin(document.getElementById("select2").value)}}>Remove Admin Authority</button>
+          </React.Fragment>
+         )}
         </React.Fragment>
     )
 

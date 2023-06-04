@@ -70,4 +70,4 @@ const mapStateToProps = state=>{
         followedblogs:state.followedblogs
     }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(SideMenu);
+export default connect(mapStateToProps)(SideMenu);
