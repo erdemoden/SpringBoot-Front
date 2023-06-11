@@ -11,6 +11,7 @@ import backgroundImage from "../Images/arkaplan-resim.jpg";
 import Swal from 'sweetalert2';
 import Create_Post from './Create-Post';
 import Nav from './Nav';
+import { isUserBlockExist } from '../Services/UserPrefs';
 const axios = require('axios');
 let rotation = 0;
 const Menu = (props)=>{
@@ -21,6 +22,7 @@ const Menu = (props)=>{
         const beforeLoad = async()=>{
           console.log(props.username);
           let response = await GetWithAuth(`${process.env.REACT_APP_ROOT_URL}/auth/route`,"/homepage",props.jwtsession);
+          let response2 = await isUserBlockExist(`${process.env.REACT_APP_ROOT_URL}/user/isuserblockexist`,props.jwtsession);
           if(response.route == "/"){
           props.setJwtSession("");
           //localStorage.removeItem("jwtsession");
@@ -30,6 +32,7 @@ const Menu = (props)=>{
             props.setUserName(response.username);
             props.setUserPicPath(response.location);
             props.setFollowedBlogs(response.followedblogs);
+            props.setBlocked(response2);
             console.log(response.followedblogs);
             document.body.className = Menustyle.deneme;
             //document.getElementById("background").className = Menustyle.backwithoutscroll;
@@ -66,7 +69,8 @@ const mapDispatchToProps = (dispatch) =>{
     setUserName: (username) =>{ dispatch({'type':'SET_NAME',username})},
     setJwtSession: (jwtsession) =>{ dispatch({'type':'SET_JWTSESSION',jwtsession})},
     setUserPicPath:(userpicpath) =>{ dispatch({'type':'SET_USERPIC',userpicpath})},
-    setFollowedBlogs:(followedblogs) =>{ dispatch({'type':'SET_FOLLOWEDBLOGS',followedblogs})}
+    setFollowedBlogs:(followedblogs) =>{ dispatch({'type':'SET_FOLLOWEDBLOGS',followedblogs})},
+    setBlocked: (blocked) => { dispatch({'type':'SET_BLOCK',blocked})}
   }
 }
 

@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import { useEffect, useState } from "react";
 import Design from '../Styles/ProfileScreen.module.css';
 import {GetWithAuth} from '../Services/HttpServices';
-import { uploadPhoto,getUserPhoto } from '../Services/UserPrefs';
+import { uploadPhoto,getUserPhoto, thirtyMinuteBlock, deleteTimeBlock } from '../Services/UserPrefs';
 import { connect } from 'react-redux';
 import Nav from './Nav';
 import Post from './Post';
@@ -141,6 +141,16 @@ const ProfileScreen = (props)=>{
       setPosts(posts.filter(post => post.id !== postId));
     }
     }
+    const blockActivePassive = async()=>{
+      if(!props.blocked){
+      props.setBlocked(true);
+      await thirtyMinuteBlock(`${process.env.REACT_APP_ROOT_URL}/user/blockuser`,props.jwtsession);
+      }
+      else{
+        props.setBlocked(false);
+        await deleteTimeBlock(`${process.env.REACT_APP_ROOT_URL}/user/deleteblock`,props.jwtsession);
+      }
+    }
     return(
         <React.Fragment>
         <Nav username={props.username}/>
@@ -150,7 +160,7 @@ const ProfileScreen = (props)=>{
         <div className={Design.flex}>
         <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}} onClick={()=>{getPosts()}}>Posts</motion.button>
         <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}} onClick={()=>{getLikes()}}>Likes</motion.button>
-        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}}>30 Minute Block</motion.button>
+        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className={props.blocked? "btn btn-outline-danger":"btn btn-outline-success"} style={{marginTop:30,borderWidth:3,fontWeight:'bolder',display:'inline-block'}} onClick={()=>{blockActivePassive()}}>30 Minute Block</motion.button>
         </div>
         </div>
         <Bounce left opposite when={userpost||userlike}>
@@ -165,7 +175,8 @@ const mapStateToProps = (state)=>{
   return{
     userpicpath:state.userpicpath,
     jwtsession:state.jwtsession,
-    username:state.username
+    username:state.username,
+    blocked:state.blocked
   }
 }
 const mapDispatchToProps = (dispatch) =>{
@@ -173,7 +184,8 @@ const mapDispatchToProps = (dispatch) =>{
     setJwtSession: (jwtsession) => (dispatch({'type':'SET_JWTSESSION',jwtsession})),
     setUserPicPath:(userpicpath) =>{ dispatch({'type':'SET_USERPIC',userpicpath})},
     setFollowedBlogs:(followedblogs) =>{ dispatch({'type':'SET_FOLLOWEDBLOGS',followedblogs})},
-    setUserName: (username) =>{ dispatch({'type':'SET_NAME',username})}
+    setUserName: (username) =>{ dispatch({'type':'SET_NAME',username})},
+    setBlocked: (blocked) => { dispatch({'type':'SET_BLOCK',blocked})}
   }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(ProfileScreen);

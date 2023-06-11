@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 import { findByTitle, userBlogLike } from '../Services/BlogService';
 import { useNavigate } from 'react-router-dom';
+import SockJS from 'sockjs-client';
+import { over } from 'stompjs';
 const Nav = (props)=>{
   const navigate = useNavigate();
 const [search,setSearch] =useState("");
@@ -68,6 +70,32 @@ const rotateAndOpen = ()=>{
     document.body.style.overflow = "";
     }
   }
+//   const beforeLoad = ()=>{
+//     let Sock = new SockJS(`${process.env.REACT_APP_ROOT_URL}/ws`);
+//     let stompClient = over(Sock);
+//     stompClient.connect({}, function (frame) {
+//       console.log('Connected: ' + frame);
+//       stompClient.subscribe('/user-connect/user/'+props.username+"private", function (response) {
+//         const message = JSON.parse(response.body);
+//         console.log(message);
+//       });
+//     });
+//   // const onConnected = ()=>{
+//   //   this.stompClient.subscribe('/user-connect/user'+this.props.username+"/private",onPrivateMessageReceived);
+//   // }
+//   // const onError = (e)=>{
+//   //   console.log("error "+e);
+//   // }
+//   // const onPrivateMessageReceived = (payload)=>{
+//   //   let payloadData = JSON.parse(payload);
+//   //   localStorage.removeItem("persist:persist");
+//   //   window.location.reload();
+//   // }
+//   // stompClient.connect({},onConnected,onError);
+// }
+//   useEffect(() =>{
+//     beforeLoad();
+//   },[]);
 return(
     <React.Fragment>
     <motion.div style={{width:"100%",height:"200px",backgroundColor:'black',borderRadius:'0px 0px 30px 30px'}} variants={variants} animate={hidden ? 'hidden':'visible'} transition={{ ease: [0.1, 0.25, 0.3, 1], duration: 0.6 }}></motion.div>

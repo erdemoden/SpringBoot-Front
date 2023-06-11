@@ -27,6 +27,10 @@ const SideMenu = (props)=>{
         let response = await findByTitle(`${process.env.REACT_APP_ROOT_URL}/blogs/findbytitle?`,props.jwtsession,title);
         return response;
       }
+      const logOut = ()=>{
+        localStorage.removeItem("persist:persist");
+        window.location.reload();
+      }
     return(
     <motion.div className = {Menustyle.sidemenu} initial = {{transform:"translate(170%)"}}animate={{transform: props.side ?"translate(20px)":"translate(170%)" }}>
         <motion.div style ={{backgroundImage:`url(${props.userpicpath}`}} className={`${Menustyle.userphoto} ${Menustyle.flexitems}`}whileHover={{scale:1.1}} whileTap={{scale:0.9}} onClick={()=>{document.body.style.overflow = ""; navigate("/profile")}}></motion.div>
@@ -56,7 +60,7 @@ const SideMenu = (props)=>{
         </AnimatePresence>
         <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{marginTop:30,borderWidth:3,fontWeight:'bolder'}} onClick={()=>{navigate("/create-blog")}}>Create Community</motion.button>
         </div>
-        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{justifySelf:'flex-end',borderWidth:3,fontWeight:'bolder',marginTop:3}}>Log-Out</motion.button>
+        <motion.button whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="btn btn-outline-dark" style={{justifySelf:'flex-end',borderWidth:3,fontWeight:'bolder',marginTop:3}}onClick={logOut}>Log-Out</motion.button>
     </motion.div>
     );
 }

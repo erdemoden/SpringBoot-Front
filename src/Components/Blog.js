@@ -11,6 +11,7 @@ import { checkOwner, createOrDeleteAdmin, followBlog, unFollowBlog } from "../Se
 import { useReducer } from "react";
 import {GetWithAuth ,GetWithRefresh,beforeRegister,registerWithMail, beforeLogin} from '../Services/HttpServices';
 import { DeletePostById } from "../Services/PostService";
+import { deleteBlog } from "../Services/BlogService";
 import swal from 'sweetalert';
 import Post from "./Post";
 const Blog = (props)=>{
@@ -184,6 +185,36 @@ const Blog = (props)=>{
           });
         }
     }
+    const deleteThisBlog = async()=>{
+      let response = await deleteBlog(`${process.env.REACT_APP_ROOT_URL}/blogs/delete?`,location.state.follows.id,props.jwtsession);
+      if(response.route == "/"){
+        props.setJwtSession("");
+        localStorage.removeItem("jwtsession");
+        navigate(response.route);
+        }
+        else if(response.error){
+          swal({
+            title:"Error",
+            text:response.error,
+            icon:"error",
+            buttons:"Close"
+          });
+        }
+        else{
+          setIsAdmin(false);
+          setIsFollower(false);
+          setIsOwner(false);
+          setIsNone(false);
+          props.setFollowedBlogs(props.followedblogs.filter(follow=>follow.title !=location?.state?.follows?.title));
+          navigate("/");
+          swal({
+            title:"Success",
+            text:response.success,
+            icon:"success",
+            buttons:"Close"
+          });
+        }
+    }
       if (isLoading) {
         return (
           <React.Fragment>
@@ -210,7 +241,7 @@ const Blog = (props)=>{
                 <p className={style.titlecontent}>{`Blog:${location?.state?.follows?.title}`}</p>
                  {!isLoading&&isOwner && (
                     <div className={style.buttons}>
-                         <button className={`btn btn-sm btn-outline-dark ${style.follow}`}>Delete</button>                 
+                         <button className={`btn btn-sm btn-outline-dark ${style.follow}`} onClick={deleteThisBlog}>Delete</button>                 
                          <button className={`btn btn-sm btn-outline-danger ${style.subject}`} onClick={subjectClicked}>Subject</button>
                          </div>
                  )}

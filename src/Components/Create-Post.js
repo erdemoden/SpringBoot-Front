@@ -65,14 +65,6 @@ ref={quillRef}
 />
 <button className='btn btn-success' style={{display:"block",margin:"0 auto",marginTop:"30px"}} onClick={()=>{sendPost(document.getElementById("select").value,body)}}>Send</button>
 </div>
-<ReactQuill placeholder='Write Something You Want To Write....'
-key={"quill2"}
-modules={Create_Post.module2}
-readOnly={true}
-value={body}
-ref={quillRef2}
-style={{ backgroundColor: 'white', color: 'black' }}
-/>
 </React.Fragment>
 );
 }

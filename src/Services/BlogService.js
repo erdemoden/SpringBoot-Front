@@ -90,3 +90,12 @@ export const checkAdminAndOwner = async(url,adminname,jwtsession)=>{
     });
     return await request.json();
 }
+export const deleteBlog = async(url,blogid,jwtsession)=>{
+    let request = await fetch(url+"blogid="+blogid,{
+        method:"GET",
+        headers:{
+            "Authorization":jwtsession
+        }
+    });
+    return await request.json();
+}

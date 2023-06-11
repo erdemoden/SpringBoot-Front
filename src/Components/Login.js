@@ -10,6 +10,7 @@ import Swal from 'sweetalert2'
 import { connect } from 'react-redux';
 import { Oval } from 'react-loader-spinner';
 import {GetWithAuth ,GetWithRefresh,beforeRegister,registerWithMail, beforeLogin} from '../Services/HttpServices';
+import { isUserBlockExist } from '../Services/UserPrefs';
 let number = 1;
 const Login  = (props)=>{
   const navigate = useNavigate();
@@ -166,7 +167,6 @@ const Login  = (props)=>{
           if(postres2.created == true){
             props.setJwtSession(postres.accessToken.toString());
             console.log(postres.accessToken);
-            //localStorage.setItem("jwtsession",postres.accessToken);
            navigate('/homepage');
             Swal.close();
           }
@@ -189,7 +189,7 @@ const Login  = (props)=>{
              
             }})
           }
-          else if(postres.created === false){
+          else if(postres.created === false && postres.blocked == false){
             swal({
               title: postres.error,
               text: "Please Check And Try Again",
@@ -197,6 +197,14 @@ const Login  = (props)=>{
               button: "Close This Alert",
             });
             console.log(postres);
+          }
+          else{
+            swal({
+              title: postres.error,
+              text: "Please Check And Try Again",
+              icon: "error",
+              button: "Close This Alert",
+            });
           }
          }
       

@@ -5,6 +5,7 @@ const initialState = {
     userpicpath:"",
     jwtsession:"",
     followedblogs:[],
+    blocked:false
 }
 
 
@@ -35,6 +36,11 @@ const rootReducer = (state = initialState,action)=>{
             return{
                 ...state,
                 followedblogs:action.followedblogs
+            }
+        case 'SET_BLOCK':
+            return{
+                ...state,
+                blocked:action.blocked
             }
     }
     
