@@ -1,72 +1,19 @@
-# Getting Started with Create React App
+# MII Websitesi Frontend Kodlarıdır 
+bu website reddit benzeri bir sosyal medya websitesidir kullanıcılar blog sayfası açabilir blog sayfalarına adminler tanımlayabilir blogları takip edebilir bloglarda post paylaşıp diğerlerin postlarını beğenip yorum yapabilir. Blogların adminleri ise postlar onların olmasa bile postları isterlers silebilir. Bu Websitesini denemelkk için : https://mii-front.herokuapp.com sitesine girebilirsiniz. Herokuda sorun olduğu için ilk seferde açılmazsa ikinci sefer açılacaktır.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Frontend Tarafında Kullanılanlar 
+Frontend tarafında React.js ve redux kullanıldı.
 
-## Available Scripts
+# Uygulamadan Resimler
 
-In the project directory, you can run:
+![deneme-min](https://github.com/erdemoden/Spring-Blog/assets/53904841/8b2b2a19-8b03-42ea-a3eb-371210094ba2)
 
-### `npm start`
+kullanıcı giriş kısımı 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+![deneme2](https://github.com/erdemoden/Spring-Blog/assets/53904841/c8cdf554-2e04-49cb-9de6-960670ef7011)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+kullanıcı post listeleme kısımı beğenme ve yorumları görme
 
-### `npm test`
+<img width="744" alt="diagram" src="https://github.com/erdemoden/Spring-Blog/assets/53904841/1568e576-089f-4961-82ce-ef8a8c07d6c4">
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# blog-front
-# SpringBoot-Front
+database diagramı
